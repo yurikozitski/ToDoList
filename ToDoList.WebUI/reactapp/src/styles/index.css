@@ -1,0 +1,50 @@
+:root {
+	--bg-color: white;
+	--border-color: #ded5d5;
+	--text-color: black;
+	--btn-hover-color: #ddd;
+	--svg-icon-color: black;
+	--date-color: #808080;
+}
+
+	:root[theme='dark'] {
+		--bg-color: #424952;
+		--border-color: white;
+		--text-color: white;
+		--btn-hover-color: #ddd;
+		--svg-icon-color: white;
+		--date-color: white;
+	}
+
+* {
+	box-sizing: border-box;
+}
+
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, dl, dt, dd,
+ol, ul, li, form, table, caption, tr, th, td, article, aside, footer, header, main {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	/*font-size: 100%;*/
+	vertical-align: baseline;
+}
+
+html, body, div {
+	height: 100%;
+}
+
+
+body {
+	font-family: Verdana, Arial, sans-serif;
+	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+
+#root {
+	height:100%;
+	width:100%;
+}
+
+svg {
+	fill: var(--svg-icon-color);
+}

@@ -1,0 +1,217 @@
+.sideBar {
+	height: 100%;
+	width: 25%;
+	float: left;
+	border-right: 1px solid var(--border-color);
+}
+
+	.sideBar .logo-and-themeToggle {
+		height: 5%;
+		min-height: 40px;
+		width: 100%;
+		padding: 5px;
+	}
+
+		.sideBar .logo-and-themeToggle svg {
+			float: left;
+		}
+
+		.sideBar .logo-and-themeToggle span {
+			float: left;
+			display: flex;
+			height: 100%;
+			width: 70%;
+			font-size: 1.5em;
+			font-weight: bold;
+			margin-left: 10px;
+		}
+
+		.sideBar .logo-and-themeToggle .themeToggleContainer {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 30px;
+			width: 30px;
+			float: right;
+			margin-right: 10px;
+		}
+
+		.sideBar .logo-and-themeToggle .themeToggle {
+			height: 30px;
+			width: 30px;
+			border-radius: 5px;
+		}
+
+			.sideBar .logo-and-themeToggle .themeToggle:hover {
+				background-color: var(--btn-hover-color);
+			}
+
+.userblock {
+	height: 7%;
+	width: 100%;
+	float: right;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+
+	.userblock img {
+		height: 60px;
+		width: 60px;
+		border-radius: 50%;
+	}
+
+.dropdown {
+	height: 40px;
+	width: 40px;
+	float: right;
+	position: relative;
+	display: block;
+	margin-right: 10px;
+	border-radius: 5px;
+}
+
+.threedot {
+	height: 40px;
+	width: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+	.threedot:after {
+		content: '\2807';
+		font-size: 30px;
+		height: 40px;
+		width: 10px;
+		padding-right: 3px;
+	}
+
+.dropdown-content-closed, .inputTaskListName-hidden {
+	display: none;
+}
+
+.dropdown-content {
+	display: block;
+	position: absolute;
+	border-radius: 5px;
+	top: 40px;
+	height: 150px;
+	background-color: #f1f1f1;
+	width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+	.dropdown-content a {
+		color: black;
+		padding: 16px 16px;
+		height: 50px;
+		width: 120px;
+		text-decoration: none;
+		display: block;
+		border-radius: inherit;
+	}
+
+		.dropdown-content a:hover {
+			background-color: #ddd;
+		}
+
+.dropdown:hover {
+	background-color: var(--btn-hover-color);
+}
+
+.sideBar .defaultTaskLists > .taskList{
+	height:25%;
+}
+
+.sideBar .userTaskLists > .taskList {
+	height: 3em;
+}
+
+.taskList {
+	width: 100%;
+	padding: 5px;
+	float: left;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+
+	.taskList:hover {
+		background-color: var(--btn-hover-color);
+	}
+
+	.taskList svg{
+		margin-right:10px;
+		margin-left:5px;
+	}
+	.taskList form{
+		display: flex;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		text-decoration: none;
+		color:var(--text-color);
+	}
+		.taskList form:hover {
+			background-color: var(--btn-hover-color);
+		}
+
+.sideBar .defaultTaskLists {
+	float: left;
+	height: 20%;
+	width: 100%;
+}
+
+.sideBar .userTaskLists {
+	float:left;
+	border-top: 1px solid var(--border-color);
+	height: 63%;
+	width: 100%;
+	overflow-y: auto;
+}
+
+.sideBar .addNewTaskList {
+	position:relative;
+	float: left;
+	height: 5%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+
+	.sideBar .addNewTaskList:hover {
+		background-color: var(--btn-hover-color);
+	}
+
+	.sideBar .addNewTaskList .inputTaskListName {
+		position: absolute;
+		bottom: 100%;
+		height: 60%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: left;
+	}
+
+	.sideBar .addNewTaskList .inputTaskListName input{
+		width:90%;
+		font-size:1.3em;
+		height:100%;
+	}
+
+	.sideBar .addNewTaskList .inputTaskListName .addTaskListSVGContainer {
+		width: 10%;
+		height: 100%;
+	}
+
+		.sideBar .addNewTaskList .inputTaskListName .addTaskListSVGContainer:hover {
+			background-color: var(--btn-hover-color);
+		}
+
+		.sideBar .addNewTaskList .inputTaskListName .addTaskListSVGContainer svg {
+			width: 100%;
+			height: 100%;
+		}
