@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ToDoListCore.AuthInterfaces\ToDoList.Core.AuthInterfaces.csproj" />
+    <ProjectReference Include="..\ToDoList.Core.AuthInterfaces\ToDoList.Core.AuthInterfaces.csproj" />
   </ItemGroup>
 
 </Project>
