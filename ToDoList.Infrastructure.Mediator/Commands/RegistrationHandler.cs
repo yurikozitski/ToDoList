@@ -10,20 +10,21 @@ using ToDoList.Core.Models;
 using ToDoList.Core.AuthInterfaces;
 using ToDoList.Infrastructure.DTOs;
 using ToDoList.Infrastructure.Data;
+using ToDoList.Core.RepositoryInterfaces;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
 	public class RegistrationHandler : IRequestHandler<RegistrationCommand, UserDTO>
 	{
-		private readonly UserManager<User> _userManager;
-		private readonly IJwtGenerator _jwtGenerator;
-		private readonly ApplicationContext _context;
+		private readonly IUserRepository userRepository;
+		private readonly IJwtGenerator jwtGenerator;
+		private readonly ApplicationContext context;
 
-		public RegistrationHandler(ApplicationContext context, UserManager<User> userManager, IJwtGenerator jwtGenerator)
+		public RegistrationHandler(ApplicationContext _context, IUserRepository _userRepository, IJwtGenerator _jwtGenerator)
 		{
-			_context = context;
-			_userManager = userManager;
-			_jwtGenerator = jwtGenerator;
+			context = _context;
+			userRepository = _userRepository;
+			jwtGenerator = _jwtGenerator;
 		}
 
 		public async Task<UserDTO> Handle(RegistrationCommand request, CancellationToken cancellationToken)
@@ -40,21 +41,22 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 
 			var user = new User
 			{
-				DisplayName = request.DisplayName,
+				FirstName = request.FirstName,
+				LastName = request.LastName,
+				FullName = request.FirstName+" "+request.LastName,
 				Email = request.Email,
-				UserName = request.UserName
+				UserName="_"+request.Email
 			};
 
-			var result = await _userManager.CreateAsync(user, request.Password);
+			var result = await userRepository.CreateAsync(user, request.Password);
 
-			if (result.Succeeded)
+			if (result)
 			{
-				return new User
+				return new UserDTO
 				{
-					DisplayName = user.DisplayName,
-					Token = _jwtGenerator.CreateToken(user),
-					UserName = user.UserName,
-					Image = null
+					FullName = user.FullName,
+					Token = jwtGenerator.CreateToken(user),
+					ImagePath = null
 				};
 			}
 

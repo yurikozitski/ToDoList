@@ -18,10 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ToDoList.Infrastructure.Data\ToDoList.Infrastructure.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\..\ToDoList.Infrastructure.Mediator\ToDoList.Infrastructure.Mediator.csproj" />
+    <ProjectReference Include="..\..\ToDoList.Infrastructure.Repositories\ToDoList.Infrastructure.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

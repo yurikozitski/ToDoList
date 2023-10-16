@@ -9,7 +9,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
+using MediatR;
+using System.Reflection;
+using ToDoList.Infrastructure.Mediator.Commands;
+using ToDoList.Infrastructure.Repositories;
+using ToDoList.Core.AuthInterfaces;
+using ToDoList.Infrastructure.Auth;
+using ToDoList.Core.RepositoryInterfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +30,7 @@ builder.Services.AddIdentity<User, IdentityRole>(opts =>
 	opts.Password.RequireLowercase = false;
 	opts.Password.RequireUppercase = false;
 	opts.Password.RequireDigit = false;
-	opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'-@";
+	//opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'-@";
 }).AddEntityFrameworkStores<ApplicationContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -43,6 +49,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	});
 
 builder.Services.AddControllers();
+
+//builder.Services.AddMediatR(cfg =>
+//{
+//	cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+//});
+
+//foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+//{
+//	builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+//}
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RegistrationHandler>(
+));
+
+builder.Services.AddTransient<IJwtGenerator,JwtGenerator>();
+builder.Services.AddTransient<IUserRepository,UserRepository>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

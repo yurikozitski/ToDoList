@@ -13,5 +13,7 @@ namespace ToDoList.Core.Models
 		public string? LastName { get; set; }
 		public string? FullName { get; set; }
 		public string? ImagePath { get; set; }
+		public string? Token { get; set; }
+		public List<TaskList> TaskLists { get; set; }=new List<TaskList>();
 	}
 }
