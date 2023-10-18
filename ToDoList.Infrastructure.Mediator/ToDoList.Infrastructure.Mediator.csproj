@@ -20,6 +20,7 @@
     <ProjectReference Include="..\ToDoList.Infrastructure.Auth\ToDoList.Infrastructure.Auth.csproj" />
     <ProjectReference Include="..\ToDoList.Infrastructure.Data\ToDoList.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\ToDoList.Infrastructure.DTOs\ToDoList.Infrastructure.DTOs.csproj" />
+    <ProjectReference Include="..\ToDoList.Infrastructure.Exeptions\ToDoList.Infrastructure.Exeptions.csproj" />
   </ItemGroup>
 
 </Project>

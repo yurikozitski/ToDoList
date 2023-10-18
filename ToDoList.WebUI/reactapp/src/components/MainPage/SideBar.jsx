@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { render } from 'react-dom';
@@ -11,6 +11,8 @@ export function SideBar() {
 
     const [addNewTaskListInput, addNewTaskListInputHandler] = useState("");
     const [userTaskLists, userTaskListsHandler] = useState([]);
+
+    const navigate = useNavigate();
 
     function profileButtonPress() {
         dropdownMenu.current.className = "dropdown-content";
@@ -42,6 +44,11 @@ export function SideBar() {
 
     function addNewTaskListInputName(e) {
         addNewTaskListInputHandler(e.target.value);
+    }
+
+    function signOut() {
+        localStorage.clear();
+        navigate("/Login");
     }
 
     function addNewUserTaskList(e) {
@@ -89,12 +96,12 @@ export function SideBar() {
             </div>
 
             <div className="userblock">
-                <div className="dropdown" id="profileButton" onClick={profileButtonPress} onMouseOut={profileButtonMouseOut}>
+                <div className="dropdown" id="profileButton" onClick={profileButtonPress} onMouseOut={profileButtonMouseOut} > 
                     <div className="threedot"></div>
-                    <div className="dropdown-content-closed" ref={dropdownMenu} onMouseOut={dropdownMenuMouseOut} onMouseOver={dropdownMenuMouseOver}>
-                        <NavLink to="#">My profile</NavLink>
-                        <NavLink to="#">Edit profile</NavLink>
-                        <NavLink to="#">Sign out</NavLink>
+                    <div className="dropdown-content-closed" ref={dropdownMenu} onMouseOut={dropdownMenuMouseOut} onMouseOver={dropdownMenuMouseOver} >
+                        <div className="userLink">My profile</div>
+                        <div className="userLink">Edit profile</div>
+                        <div className="userLink" onClick={signOut}>Sign out</div>
                     </div>
                 </div>
                 <img src="C:\MyApps\NatterLite\wwwroot\Images\profilepicexample.png" alt="" />

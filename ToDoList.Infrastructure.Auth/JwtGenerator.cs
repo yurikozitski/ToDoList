@@ -31,6 +31,8 @@ namespace ToDoList.Infrastructure.Auth
 
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
+				Issuer = "Issuer",
+				Audience= "Audience",
 				Subject = new ClaimsIdentity(claims),
 				Expires = DateTime.Now.AddDays(2),
 				SigningCredentials = credentials

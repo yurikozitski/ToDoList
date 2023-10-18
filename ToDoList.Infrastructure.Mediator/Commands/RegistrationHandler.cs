@@ -10,6 +10,7 @@ using ToDoList.Core.Models;
 using ToDoList.Core.AuthInterfaces;
 using ToDoList.Infrastructure.DTOs;
 using ToDoList.Infrastructure.Data;
+using ToDoList.Infrastructure.Exeptions;
 using ToDoList.Core.RepositoryInterfaces;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
@@ -18,26 +19,19 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 	{
 		private readonly IUserRepository userRepository;
 		private readonly IJwtGenerator jwtGenerator;
-		private readonly ApplicationContext context;
 
-		public RegistrationHandler(ApplicationContext _context, IUserRepository _userRepository, IJwtGenerator _jwtGenerator)
+		public RegistrationHandler(IUserRepository _userRepository, IJwtGenerator _jwtGenerator)
 		{
-			context = _context;
 			userRepository = _userRepository;
 			jwtGenerator = _jwtGenerator;
 		}
 
 		public async Task<UserDTO> Handle(RegistrationCommand request, CancellationToken cancellationToken)
 		{
-			//if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
-			//{
-			//	throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exist" });
-			//}
-
-			//if (await _context.Users.Where(x => x.UserName == request.UserName).AnyAsync())
-			//{
-			//	throw new RestException(HttpStatusCode.BadRequest, new { UserName = "UserName already exist" });
-			//}
+			if (await userRepository.GetByEmailAsync(request.Email)!=null)
+			{
+				throw new RestException(HttpStatusCode.BadRequest, "Email already exist" );
+			}
 
 			var user = new User
 			{
@@ -60,7 +54,7 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 				};
 			}
 
-			throw new Exception("Client creation failed");
+			throw new Exception("User creation failed");
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace ToDoList.Core.RepositoryInterfaces
 		//Task<bool> ChangePasswordAsync(User user, string oldPassword, string newPassword);
 		//Task<bool> UpDateAsync(User user);
 		//Task<User> GetByIdAsync(string userId);
-		//Task<User> GetByEmailAsync(string email);
+		Task<User> GetByEmailAsync(string email);
 		//Task<User> GetByUniqueNameAsync(string uniqueName);
 	}
 }

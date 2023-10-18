@@ -26,5 +26,11 @@ namespace ToDoList.Infrastructure.Repositories
 			return result.Succeeded;
 		}
 
+		public async Task<User?> GetByEmailAsync(string email)
+		{
+			var user = await userManager.FindByEmailAsync(email);
+			return user;
+		}
+
 	}
 }

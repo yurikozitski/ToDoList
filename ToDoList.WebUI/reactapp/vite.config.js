@@ -31,9 +31,14 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7080/',
-                secure: false
+            '/createaccount': {
+                target: 'https://localhost:7080/Account/Register',
+                secure: false,
+            },
+
+            '/check': {
+                target: 'https://localhost:7080/Account/Test',
+                secure: false,
             }
         },
         port: 5173,

@@ -16,6 +16,7 @@ using ToDoList.Infrastructure.Repositories;
 using ToDoList.Core.AuthInterfaces;
 using ToDoList.Infrastructure.Auth;
 using ToDoList.Core.RepositoryInterfaces;
+using webapi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,7 @@ builder.Services.AddIdentity<User, IdentityRole>(opts =>
 	//opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'-@";
 }).AddEntityFrameworkStores<ApplicationContext>();
 
+builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
@@ -50,21 +52,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllers();
 
-//builder.Services.AddMediatR(cfg =>
-//{
-//	cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-//});
-
-//foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-//{
-//	builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
-//}
-
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RegistrationHandler>(
 ));
 
 builder.Services.AddTransient<IJwtGenerator,JwtGenerator>();
 builder.Services.AddTransient<IUserRepository,UserRepository>();
+
+builder.Services.AddCors();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -81,9 +75,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseCors(
+		options => options.WithOrigins("https://localhost:5173")
+		.AllowAnyMethod()
+		.AllowAnyHeader()
+	);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapControllers();
 
 app.Run();

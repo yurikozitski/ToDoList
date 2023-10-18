@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Infrastructure.DTOs;
@@ -17,12 +19,21 @@ namespace webapi.Controllers
 			mediator = _mediator;
 		}
 
-		[HttpPost("register")]
+		[HttpPost("Register")]
 		public async Task<ActionResult<UserDTO>> RegisterAsync(RegistrationCommand registrationCommand)
 		{
 			return await mediator.Send(registrationCommand);
 		}
 
+		[HttpPost("Login")]
+		public async Task<ActionResult<UserDTO>> LoginAsync(LoginCommand loginCommand)
+		{
+			return await mediator.Send(loginCommand);
+		}
 
-	}
+		[HttpGet("{action}")]
+		public string Test() => "secces";
+	}	
+	
+
 }
