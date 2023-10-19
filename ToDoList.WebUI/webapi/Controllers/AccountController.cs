@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -31,8 +32,6 @@ namespace webapi.Controllers
 			return await mediator.Send(loginCommand);
 		}
 
-		[HttpGet("{action}")]
-		public string Test() => "secces";
 	}	
 	
 

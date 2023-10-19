@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDoList.Core.RepositoryInterfaces\ToDoList.Core.RepositoryInterfaces.csproj" />
+    <ProjectReference Include="..\ToDoList.Infrastructure.Data\ToDoList.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -57,6 +57,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Re
 
 builder.Services.AddTransient<IJwtGenerator,JwtGenerator>();
 builder.Services.AddTransient<IUserRepository,UserRepository>();
+builder.Services.AddTransient<ITaskRepository,TaskRepository>();
 
 builder.Services.AddCors();
 

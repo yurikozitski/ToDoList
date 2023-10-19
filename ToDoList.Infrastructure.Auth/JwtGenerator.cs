@@ -25,7 +25,7 @@ namespace ToDoList.Infrastructure.Auth
 
 		public string CreateToken(User user)
 		{
-			var claims = new List<Claim> { new Claim(JwtRegisteredClaimNames.NameId, user.Email) };
+			var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
 
 			var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

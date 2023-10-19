@@ -11,7 +11,8 @@ namespace ToDoList.Infrastructure.Data
 {
 	public class ApplicationContext : IdentityDbContext<User>
 	{
-		
+		public DbSet<TaskList> TaskLists { get; set; }
+		public DbSet<UserTask> UserTasks { get; set; }
 		public ApplicationContext(DbContextOptions<ApplicationContext> options)
 			: base(options)
 		{
