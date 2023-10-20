@@ -34,5 +34,62 @@ namespace ToDoList.Infrastructure.Repositories
 			await db.TaskLists.AddAsync(taskList);
 			await db.SaveChangesAsync();
 		}
+
+		public async Task AddUserTaskAsync(Guid taskListId, string? text)
+		{
+			UserTask userTask = new UserTask()
+			{
+				TaskListId = taskListId,
+				Text = text
+			};
+
+			await db.UserTasks.AddAsync(userTask);
+			await db.SaveChangesAsync();
+		}
+
+		public async Task MarkUserTaskAsDoneAsync(Guid userTaskId)
+		{
+			UserTask? userTask= await db.UserTasks.FirstOrDefaultAsync(t=>t.Id==userTaskId);
+
+			if (userTask!=null) 
+			{
+				userTask.IsDone = true;
+				await db.SaveChangesAsync();
+			}
+		}
+
+		public async Task MarkUserTaskAsImportantAsync(Guid userTaskId)
+		{
+			UserTask? userTask = await db.UserTasks.FirstOrDefaultAsync(t => t.Id == userTaskId);
+
+			if (userTask != null)
+			{
+				userTask.IsImportant = true;
+				await db.SaveChangesAsync();
+			}
+		}
+
+		public async Task AddUserTaskPlannedTimeAsync(Guid userTaskId, DateTime dateTime)
+		{
+			UserTask? userTask = await db.UserTasks.FirstOrDefaultAsync(t => t.Id == userTaskId);
+
+			if (userTask != null)
+			{
+				userTask.PlannedTime = dateTime;
+				await db.SaveChangesAsync();
+			}
+		}
+
+		public async Task<IEnumerable<UserTask>> GetAllUserTasksAsync(string? userEmail)
+		{
+			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.User.Email == userEmail).ToListAsync();
+			return userTasks;
+		}
+
+		public async Task<IEnumerable<UserTask>> GetUserTasksByTaskListAsync(Guid taskListId)
+		{
+			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.Id==taskListId).ToListAsync();
+			return userTasks;
+		}
 	}
 }

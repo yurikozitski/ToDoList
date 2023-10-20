@@ -27,11 +27,58 @@ namespace webapi.Controllers
 			return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name });
 		}
 
-		[HttpGet("{action}/{taskListName}")]
-		public async Task<IActionResult> AddTaskList([FromQuery][FromRoute]string? taskListName)
+		[HttpPost("{action}")]
+		public async Task<IActionResult> AddTaskList(string? taskListName)
 		{
 			await mediator.Send(new AddTaskListCommand() { UserEmail = User.Identity?.Name, TaskListName = taskListName });
 			return Ok();
+		}
+
+		[HttpPost("{action}")]
+		public async Task<IActionResult> AddUserTask(AddUserTaskCommand addUserTaskCommand)
+		{
+			await mediator.Send(addUserTaskCommand);
+			return Ok();
+		}
+
+		[HttpPatch("{action}")]
+		public async Task<IActionResult> MarkUserTaskAsDone(string userTaskId)
+		{
+			await mediator.Send(new MarkUserTaskAsDoneCommand() {UserTaskId=Guid.Parse(userTaskId) });
+			return Ok();
+		}
+
+		[HttpPatch("{action}")]
+		public async Task<IActionResult> MarkUserTaskAsImportant(string userTaskId)
+		{
+			await mediator.Send(new MarkUserTaskAsImportantCommand() { UserTaskId = Guid.Parse(userTaskId) });
+			return Ok();
+		}
+
+		[HttpPatch("{action}")]
+		public async Task<IActionResult> AddUserTaskPlannedTime(AddUserTaskPlannedTimeCommand addUserTaskPlannedTimeCommand)
+		{
+			await mediator.Send(addUserTaskPlannedTimeCommand);
+			return Ok();
+		}
+
+		[HttpGet("{action}")]
+		public async Task<ActionResult<List<UserTask>>> GetAllUserTasks()
+		{
+			return await mediator.Send(new GetAllUserTasksQuery() {UserEmail=User.Identity?.Name });
+		}
+
+		[HttpGet("{action}")]
+		public async Task<ActionResult<List<UserTask>>> GetUserTasksByTaskList([FromQuery]string taskListId)
+		{
+			try
+			{
+				return await mediator.Send(new GetUserTasksByTaskListQuery() { TaskListId = Guid.Parse(taskListId) });
+			}
+			catch (Exception ex) 
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 	}
 }
