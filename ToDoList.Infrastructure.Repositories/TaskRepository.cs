@@ -23,12 +23,12 @@ namespace ToDoList.Infrastructure.Repositories
 			return await db.TaskLists.Where(tl => tl.User.Email == userEmail).ToListAsync();
 		}
 
-		public async Task AddTaskListAsync(string? taskListName, User user)
+		public async Task AddTaskListAsync(string? taskListName, User? user)
 		{
 			TaskList taskList=new TaskList()
 			{
 				TaskListName = taskListName,
-				User = user
+				User = user!
 			};
 
 			await db.TaskLists.AddAsync(taskList);
@@ -37,9 +37,12 @@ namespace ToDoList.Infrastructure.Repositories
 
 		public async Task AddUserTaskAsync(Guid taskListId, string? text)
 		{
+
+			TaskList? taskList=await db.TaskLists.FindAsync(taskListId);
+
 			UserTask userTask = new UserTask()
 			{
-				TaskListId = taskListId,
+				TaskList=taskList?? throw new NullReferenceException("Null task id"),
 				Text = text
 			};
 

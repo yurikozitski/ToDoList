@@ -14,6 +14,6 @@ namespace ToDoList.Core.Models
 		public bool IsDone { get; set; }
 		public bool IsImportant { get; set; }
 		public Guid TaskListId { get; set; }
-		public TaskList TaskList { get; set; } = new TaskList();
+		public TaskList? TaskList { get; set; }
 	}
 }

@@ -2,17 +2,65 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { render } from 'react-dom';
 
-export function SideBar() {
+export function SideBar(props) {
 
     const dropdownMenu = useRef(null);
     const addNewTaskList = useRef(null);
 
     const [addNewTaskListInput, addNewTaskListInputHandler] = useState("");
     const [userTaskLists, userTaskListsHandler] = useState([]);
+    const [selectedTaskListId, setSelectedTaskListId] = useState(null);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchTaskLists();
+    }, []);
+
+    async function fetchTaskLists() {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch('https://localhost:44360/Tasks/GetTaskLists', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+        });
+        if (response.status === 200) {
+
+            let taskLists = await response.json();
+
+            userTaskListsHandler(taskLists);
+        }
+        else {
+            alert('Error occured while fething your tasklists');
+        }
+    }
+
+    async function fetchTasks(taskListID, taskListNAME) {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch('https://localhost:44360/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({taskListId: taskListID}),
+        {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+        });
+        if (response.status === 200) {
+
+            let tasks = await response.json();
+
+            props.updateTasks(tasks);
+            props.updateTaskListName(taskListNAME);
+        }
+        else {
+            alert('Error occured while fething your tasks');
+        }
+    }
 
     function profileButtonPress() {
         dropdownMenu.current.className = "dropdown-content";
@@ -51,13 +99,37 @@ export function SideBar() {
         navigate("/Login");
     }
 
-    function addNewUserTaskList(e) {
-        if ((e.key === 'Enter') || (e.type === 'click')) {
-        const updatedTaskLists = [...userTaskLists, addNewTaskListInput];
-        userTaskListsHandler(updatedTaskLists);
-        addNewTaskListInputHandler("");
-        }
-    }
+   async function addNewUserTaskList(e) {
+       if ((e.key === 'Enter') || (e.type === 'click')) {
+
+           const token = localStorage.getItem("token");
+
+           if (addNewTaskListInput.length < 3) {
+               alert('Task list name is too short');
+               return;
+           }
+
+            const response = await fetch('https://localhost:44360/Tasks/AddTaskList', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    "taskListName": addNewTaskListInput
+                })
+            });
+           if (response.status === 200) {
+                await fetchTaskLists();
+                addNewTaskListInputHandler("");
+            }
+            else {
+                alert('Error occured while adding new tasklist');
+            }
+
+        
+       }
+   }
 
     function themeToggleBtnPress() {
         if (document.documentElement.hasAttribute("theme")) {
@@ -66,6 +138,10 @@ export function SideBar() {
         else {
             document.documentElement.setAttribute("theme", "dark");
         }
+    }
+
+    function changeTaskListBgColor(e) {
+        alert(e.target);
     }
 
     return (
@@ -110,7 +186,6 @@ export function SideBar() {
 
             <div className="defaultTaskLists">
                 <div className="taskList">
-                    <form>
                         <svg fill="#000000" height="30px" width="30px" version="1.1" id="Capa_1"
                             xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                             viewBox="0 0 511 511" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -132,10 +207,9 @@ export function SideBar() {
                                 3.384,2.196,5.303,2.196s3.839-0.732,5.303-2.196c2.929-2.93,2.929-7.678,0-10.607L362.626,352.02z"></path> </g> </g>
                         </svg>
                         <span>My Day</span>
-                    </form>
                 </div>
                 <div className="taskList">
-                    <form>
+
                         <svg fill="#000000" height="25px" width="25px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                             xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 49.94 49.94" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                             <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">
@@ -150,10 +224,10 @@ export function SideBar() {
                                 1.058,1.529,1.79,2.696,1.959l12.092,1.757c0.609,0.089,1.086,0.491,1.276,1.077 c0.19,0.585,0.041,1.191-0.4,1.621l-8.749,8.528C37.866,30.65,37.481,31.835,37.681,32.998z"></path>
                             </g></svg>
                         <span>Important</span>
-                    </form>
+
                 </div>
                 <div className="taskList">
-                    <form>
+
                         <svg fill="#000000" height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                             viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                             <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Calendar">
@@ -174,10 +248,10 @@ export function SideBar() {
                             </g> </g>
                         </svg>
                         <span>Planned</span>
-                    </form>
+
                 </div>
                 <div className="taskList">
-                    <form>
+
                         <svg fill="#000000" height="25px" width="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                             <g id="SVGRepo_iconCarrier"><path d="M8.591,20.706a1,1,0,0,0,1.385.03l12.7-11.674a1,1,0,0,0,.061-1.412L18.785,
@@ -185,24 +259,30 @@ export function SideBar() {
                             2.637a1,1,0,0,0,1.384.031l7.834-7.2,2.6,2.849L9.33,18.614,3.412,12.68Z"></path></g>
                         </svg>
                         <span>All Tasks</span>
-                    </form>
+
                 </div>
             </div>
 
             <div className="userTaskLists">
                 {
-                    userTaskLists.map((list, index) => (
-                        <div className="taskList" key={index}>
-                            <form>
-                                <svg viewBox="0 0 24 24" fill="none" height="30px" width="30px" xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path d="M5 6H12H19M5 12H19M5 18H19" stroke="var(--svg-icon-color)" strokeWidth="0.72" strokeLinecap="round"></path>
-                                    </g>
-                                </svg>
-                                <span>{list}</span>
-                            </form>
+                    userTaskLists.map((taskList) => (
+                        <div className="taskList" key={taskList.id}
+                            onClick={() => { fetchTasks(taskList.id, taskList.taskListName); setSelectedTaskListId(taskList.id); }}
+                            style={{
+                            backgroundColor:
+                                    selectedTaskListId === taskList.id ? 'var(--btn-pressed-color)' : '', 
+                            }}
+                        >
+                            
+                            <svg viewBox="0 0 24 24" fill="none" height="30px" width="30px" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M5 6H12H19M5 12H19M5 18H19" stroke="var(--svg-icon-color)" strokeWidth="0.72" strokeLinecap="round"></path>
+                                </g>
+                            </svg>
+                            <span>{taskList.taskListName}</span>
+                            
                         </div>
                     ))
                 } 

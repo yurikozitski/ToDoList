@@ -4,6 +4,7 @@
 	--border-color: #ded5d5;
 	--text-color: black;
 	--btn-hover-color: #ddd;
+	--btn-pressed-color:#808080;
 	--svg-icon-color: black;
 	--date-color: #808080;
 }
@@ -13,6 +14,7 @@
 		--border-color: white;
 		--text-color: white;
 		--btn-hover-color: #ddd;
+		--btn-pressed-color: #808080;
 		--svg-icon-color: white;
 		--date-color: white;
 	}

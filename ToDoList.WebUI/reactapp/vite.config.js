@@ -30,17 +30,17 @@ export default defineConfig({
         }
     },
     server: {
-        proxy: {
-            '/createaccount': {
-                target: 'https://localhost:7080/Account/Register',
-                secure: false,
-            },
+        //proxy: {
+        //    '/createaccount': {
+        //        target: 'https://localhost:7080/Account/Register',
+        //        secure: false,
+        //    },
 
-            '/check': {
-                target: 'https://localhost:7080/Account/Test',
-                secure: false,
-            }
-        },
+        //    '/check': {
+        //        target: 'https://localhost:7080/Account/Test',
+        //        secure: false,
+        //    }
+        //},
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),

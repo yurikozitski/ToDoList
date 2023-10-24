@@ -10,6 +10,6 @@ namespace ToDoList.Infrastructure.Mediator.Queries
 {
 	public class GetTaskListsQuery:IRequest<List<TaskList>>
 	{
-		public string? UserEmail { get; set; }
+		public string? UserEmail { get; set;}
 	}
 }

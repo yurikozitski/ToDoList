@@ -9,9 +9,9 @@ using ToDoList.Infrastructure.Mediator.Queries;
 
 namespace webapi.Controllers
 {
-	[Route("[controller]")]
-	[ApiController]
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[ApiController]
+	[Route("[controller]/[action]")]
 	public class TasksController : ControllerBase
 	{
 		private readonly IMediator mediator;
@@ -21,54 +21,76 @@ namespace webapi.Controllers
 			mediator = _mediator;
 		}
 
-		[HttpGet("{action}")]
+		[HttpGet]
 		public async Task<ActionResult<List<TaskList>>> GetTaskLists()
 		{
 			return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name });
 		}
 
-		[HttpPost("{action}")]
-		public async Task<IActionResult> AddTaskList(string? taskListName)
+		[HttpPost]
+		public async Task<IActionResult> AddTaskList(AddTaskListCommand addTaskListCommand)
 		{
-			await mediator.Send(new AddTaskListCommand() { UserEmail = User.Identity?.Name, TaskListName = taskListName });
-			return Ok();
+			if (addTaskListCommand.TaskListName != null) 
+			{
+				addTaskListCommand.UserEmail = User.Identity?.Name;
+				await mediator.Send(addTaskListCommand);
+				return Ok();
+			}
+			else
+			{
+				return BadRequest();
+			}
 		}
 
-		[HttpPost("{action}")]
+		[HttpPost]
 		public async Task<IActionResult> AddUserTask(AddUserTaskCommand addUserTaskCommand)
 		{
 			await mediator.Send(addUserTaskCommand);
 			return Ok();
 		}
 
-		[HttpPatch("{action}")]
+		[HttpPatch]
 		public async Task<IActionResult> MarkUserTaskAsDone(string userTaskId)
 		{
-			await mediator.Send(new MarkUserTaskAsDoneCommand() {UserTaskId=Guid.Parse(userTaskId) });
-			return Ok();
+			try
+			{
+				await mediator.Send(new MarkUserTaskAsDoneCommand() {UserTaskId=Guid.Parse(userTaskId) });
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 
-		[HttpPatch("{action}")]
+		[HttpPatch]
 		public async Task<IActionResult> MarkUserTaskAsImportant(string userTaskId)
 		{
-			await mediator.Send(new MarkUserTaskAsImportantCommand() { UserTaskId = Guid.Parse(userTaskId) });
-			return Ok();
+			try
+			{
+				await mediator.Send(new MarkUserTaskAsImportantCommand() { UserTaskId = Guid.Parse(userTaskId) });
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 
-		[HttpPatch("{action}")]
+		[HttpPatch]
 		public async Task<IActionResult> AddUserTaskPlannedTime(AddUserTaskPlannedTimeCommand addUserTaskPlannedTimeCommand)
 		{
 			await mediator.Send(addUserTaskPlannedTimeCommand);
 			return Ok();
 		}
 
-		[HttpGet("{action}")]
+		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetAllUserTasks()
 		{
 			return await mediator.Send(new GetAllUserTasksQuery() {UserEmail=User.Identity?.Name });
 		}
 
-		[HttpGet("{action}")]
+		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetUserTasksByTaskList([FromQuery]string taskListId)
 		{
 			try

@@ -10,7 +10,7 @@ namespace ToDoList.Core.RepositoryInterfaces
 	public interface ITaskRepository
 	{
 		public Task<IEnumerable<TaskList>> GetTaskListsAsync(string? userEmail);
-		public Task AddTaskListAsync(string? taslListName, User user);
+		public Task AddTaskListAsync(string? taslListName, User? user);
 		public Task AddUserTaskAsync(Guid taskListId, string? text);
 		public Task MarkUserTaskAsDoneAsync(Guid userTaskId);
 		public Task MarkUserTaskAsImportantAsync(Guid userTaskId);
