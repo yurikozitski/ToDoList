@@ -17,6 +17,8 @@ namespace ToDoList.Core.RepositoryInterfaces
 		public Task AddUserTaskPlannedTimeAsync(Guid userTaskId,DateTime dateTime);
 		public Task<IEnumerable<UserTask>> GetAllUserTasksAsync(string? userEmail);
 		public Task<IEnumerable<UserTask>> GetUserTasksByTaskListAsync(Guid taskListId);
+		public Task<IEnumerable<UserTask>> GetPlannedTasksAsync(string? userEmail);
+		public Task<IEnumerable<UserTask>> GetImportantTasksAsync(string? userEmail);
 
 	}
 }

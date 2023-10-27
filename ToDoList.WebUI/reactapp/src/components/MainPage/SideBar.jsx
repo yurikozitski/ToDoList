@@ -62,6 +62,72 @@ export function SideBar(props) {
         }
     }
 
+    async function fetchAllTasks() {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch('https://localhost:44360/Tasks/GetAllUserTasks',
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+            });
+        if (response.status === 200) {
+
+            let tasks = await response.json();
+
+            props.updateTasks(tasks);
+            props.updateTaskListName("All Tasks");
+        }
+        else {
+            alert('Error occured while fething your tasks');
+        }
+    }
+
+    async function fetchPlannedTasks() {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch('https://localhost:44360/Tasks/GetPlannedTasks',
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+            });
+        if (response.status === 200) {
+
+            let tasks = await response.json();
+
+            props.updateTasks(tasks);
+            props.updateTaskListName("Planned");
+        }
+        else {
+            alert('Error occured while fething your tasks');
+        }
+    }
+
+    async function fetchImportantTasks() {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch('https://localhost:44360/Tasks/GetImportantTasks',
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+            });
+        if (response.status === 200) {
+
+            let tasks = await response.json();
+
+            props.updateTasks(tasks);
+            props.updateTaskListName("Important");
+        }
+        else {
+            alert('Error occured while fething your tasks');
+        }
+    }
+
     function profileButtonPress() {
         dropdownMenu.current.className = "dropdown-content";
     };
@@ -140,10 +206,6 @@ export function SideBar(props) {
         }
     }
 
-    function changeTaskListBgColor(e) {
-        alert(e.target);
-    }
-
     return (
         <div className="sideBar">
             <div className="logo-and-themeToggle">
@@ -208,7 +270,13 @@ export function SideBar(props) {
                         </svg>
                         <span>My Day</span>
                 </div>
-                <div className="taskList">
+                <div className="taskList"
+                    onClick={() => { fetchImportantTasks(); setSelectedTaskListId("important"); }}
+                    style={{
+                        backgroundColor:
+                            selectedTaskListId === "important" ? 'var(--btn-pressed-color)' : '',
+                    }}
+                >
 
                         <svg fill="#000000" height="25px" width="25px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                             xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 49.94 49.94" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -226,7 +294,13 @@ export function SideBar(props) {
                         <span>Important</span>
 
                 </div>
-                <div className="taskList">
+                <div className="taskList"
+                    onClick={() => { fetchPlannedTasks(); setSelectedTaskListId("planned"); }}
+                    style={{
+                        backgroundColor:
+                            selectedTaskListId === "planned" ? 'var(--btn-pressed-color)' : '',
+                    }}
+                >
 
                         <svg fill="#000000" height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                             viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -250,7 +324,13 @@ export function SideBar(props) {
                         <span>Planned</span>
 
                 </div>
-                <div className="taskList">
+                <div className="taskList"
+                    onClick={() => { fetchAllTasks(); setSelectedTaskListId("all_tasks"); }}
+                    style={{
+                        backgroundColor:
+                            selectedTaskListId === "all_tasks" ? 'var(--btn-pressed-color)' : '',
+                    }}
+                >
 
                         <svg fill="#000000" height="25px" width="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>

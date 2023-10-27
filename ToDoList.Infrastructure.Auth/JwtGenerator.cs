@@ -34,7 +34,7 @@ namespace ToDoList.Infrastructure.Auth
 				Issuer = "Issuer",
 				Audience= "Audience",
 				Subject = new ClaimsIdentity(claims),
-				Expires = DateTime.Now.AddDays(2),
+				Expires = DateTime.Now.AddDays(10),
 				SigningCredentials = credentials
 			};
 			var tokenHandler = new JwtSecurityTokenHandler();

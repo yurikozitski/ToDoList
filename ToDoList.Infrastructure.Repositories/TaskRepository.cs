@@ -56,7 +56,7 @@ namespace ToDoList.Infrastructure.Repositories
 
 			if (userTask!=null) 
 			{
-				userTask.IsDone = true;
+				userTask.IsDone = userTask.IsDone?false:true;
 				await db.SaveChangesAsync();
 			}
 		}
@@ -67,7 +67,7 @@ namespace ToDoList.Infrastructure.Repositories
 
 			if (userTask != null)
 			{
-				userTask.IsImportant = true;
+				userTask.IsImportant = userTask.IsImportant ? false : true;
 				await db.SaveChangesAsync();
 			}
 		}
@@ -92,6 +92,19 @@ namespace ToDoList.Infrastructure.Repositories
 		public async Task<IEnumerable<UserTask>> GetUserTasksByTaskListAsync(Guid taskListId)
 		{
 			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.Id==taskListId).ToListAsync();
+			return userTasks;
+		}
+
+		public async Task<IEnumerable<UserTask>> GetPlannedTasksAsync(string? userEmail)
+		{
+			DateTime defaultDate=new DateTime();
+			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.User.Email == userEmail&&ut.PlannedTime>defaultDate).ToListAsync();
+			return userTasks;
+		}
+
+		public async Task<IEnumerable<UserTask>> GetImportantTasksAsync(string? userEmail)
+		{
+			var userTasks = await db.UserTasks.Where(ut => ut.IsImportant).ToListAsync();
 			return userTasks;
 		}
 	}

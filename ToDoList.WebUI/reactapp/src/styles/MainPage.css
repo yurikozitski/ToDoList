@@ -261,3 +261,68 @@
 			.taskView .userTask .doneMark:hover {
 				background-color: var(--btn-hover-color);
 			}
+		.taskView .userTask .userTaskText{
+			width:70%;
+			float:left;
+			display:flex;
+			align-items:center;
+			justify-content:left;
+		}
+
+		.taskView .userTask .importantMark {
+			height: 30px;
+			width: 30px;
+			margin: 10px;
+			float: right;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50%;
+		}
+
+			.taskView .userTask .importantMark:hover {
+				background-color: var(--btn-hover-color);
+			}
+
+		.taskView .userTask .plannedTime {
+			height: 30px;
+			width: 120px;
+			margin: 10px;
+			float: right;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-radius: 50%;
+		}
+
+			.taskView .userTask .plannedTime input {
+				height: 20px;
+				width: 20px;
+			}
+
+			.taskView .userTask .plannedTime .date {
+				font-size:0.7em;
+				display:flex;
+				align-items:center;
+				justify-content:center;
+			}
+
+			.taskView .userTask .plannedTime .removeDate {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.taskView .userTask .plannedTime .removeDate-hidden {
+				display: none;
+			}
+
+	.taskView .doneTasksHeader {
+		height: 30px;
+		width: 100%;
+		padding-left: 3%;
+		display: flex;
+		justify-content: left;
+		align-items: center;
+		font-size: 1.2em;
+	}
