@@ -14,6 +14,7 @@
     <Folder Include="src\components\MainPage\" />
     <Folder Include="src\components\Register\" />
     <Folder Include="src\actions\" />
+    <Folder Include="src\svg\" />
     <Folder Include="src\store\" />
     <Folder Include="src\views\" />
   </ItemGroup>
