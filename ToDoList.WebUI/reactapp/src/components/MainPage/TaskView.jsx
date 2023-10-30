@@ -5,6 +5,61 @@ import { useState } from 'react';
 export function TaskView(props) {
 
     const [manipulatedTaskId, manipulatedTaskIdHandler] = useState();
+    const [addNewTaskText, addNewTaskTextHandler] = useState("");
+
+    function addNewTaskInput(e) {
+        addNewTaskTextHandler(e.target.value);
+    }
+
+    async function addNewUserTask(e) {
+        if ((e.key === 'Enter') || (e.type === 'click')) {
+
+            const token = localStorage.getItem("token");
+
+            if (addNewTaskText.length > 60) {
+                alert('Task description is too long');
+                return;
+            }
+            else if (addNewTaskText.length < 2){
+                alert('Task description is too short');
+                return;
+            }
+
+            const response = await fetch('https://localhost:44360/Tasks/AddUserTask', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "text": addNewTaskText,
+                    "taskListId": props.taskListId
+                })
+            });
+            if (response.status === 200) {
+                const response = await fetch('https://localhost:44360/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({ taskListId: props.taskListId }),
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                    });
+                if (response.status === 200) {
+
+                    let tasks = await response.json();
+
+                    props.updateTasks(tasks);
+                }
+                else {
+                    alert('Error occured while fething your tasks');
+                }
+                addNewTaskTextHandler("");
+            }
+            else {
+                alert('Error occured while adding new task');
+            }
+        }
+    }
 
     async function setPlannedTime(e) {
 
@@ -116,7 +171,7 @@ export function TaskView(props) {
                     : (<div className="taskListNameBlock">{props.taskListName}</div>)
             }
             {
-                props.tasks.length === 0 ? (<div className="emptyTaskView">There are no tasks in this task list.</div>)
+                props.tasks.length === 0 && props.taskListName!="" ? (<div className="emptyTaskView">There are no tasks in this task list.</div>)
                     : null
             }
             {props.tasks.map(task =>
@@ -214,6 +269,22 @@ export function TaskView(props) {
                     </div>
                 ) : null
             )}
+            {
+                props.taskListName === "" || props.taskListName === "All Tasks" || props.taskListName === "Important" || props.taskListName === "Planned" ? null : (
+                    <div className="addNewTask">
+                        <input type="text" value={addNewTaskText} onChange={addNewTaskInput} onKeyDown={addNewUserTask}></input>
+                        <div className="addTaskSVGContainer" onClick={addNewUserTask} >
+                            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" stroke="#000000" strokeWidth="0.00048000000000000007">
+                                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M16.1161 39.6339C15.628 39.1457 15.628 38.3543 16.1161 37.8661L29.9822 24L16.1161 10.1339C15.628 9.64573 15.628 8.85427 
+                                16.1161 8.36612C16.6043 7.87796 17.3957 7.87796 17.8839 8.36612L32.6339 23.1161C33.122 23.6043 33.122 24.3957 32.6339 24.8839L17.8839
+                                39.6339C17.3957 40.122 16.6043 40.122 16.1161 39.6339Z" ></path> </g>
+                            </svg>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

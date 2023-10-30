@@ -56,6 +56,7 @@ export function SideBar(props) {
 
             props.updateTasks(tasks);
             props.updateTaskListName(taskListNAME);
+            props.updateTaskListId(taskListID);
         }
         else {
             alert('Error occured while fething your tasks');
@@ -172,6 +173,10 @@ export function SideBar(props) {
 
            if (addNewTaskListInput.length < 3) {
                alert('Task list name is too short');
+               return;
+           }
+           else if (addNewTaskListInput.length > 15) {
+               alert('Task list name is too long');
                return;
            }
 

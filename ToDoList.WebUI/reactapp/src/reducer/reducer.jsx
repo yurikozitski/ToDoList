@@ -8,6 +8,8 @@ export function reducer (state = Map(), action) {
             return state.update("tasks", () => action.tasks);
         case "UPDATE_TASKLISTNAME":
             return state.update("taskListName", () => action.taskListName);
+        case "UPDATE_TASKLISTID":
+            return state.update("taskListId", () => action.taskListId);
     }
     return state;
 }

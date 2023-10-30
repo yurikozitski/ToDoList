@@ -10,7 +10,8 @@ store.dispatch({
     type: "SET_STATE",
     state: {
         tasks: [],
-        taskListName:""
+        taskListName: "",
+        taskListId: ""
     }
 });
 

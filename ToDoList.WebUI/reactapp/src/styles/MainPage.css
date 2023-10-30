@@ -220,6 +220,8 @@
 	height: 100%;
 	width: 75%;
 	float: left;
+	position: relative;
+	overflow-y: auto;
 }
 	.taskView .emptyTaskView{
 		height:10%;
@@ -326,3 +328,35 @@
 		align-items: center;
 		font-size: 1.2em;
 	}
+
+	.taskView .addNewTask{
+		position:absolute;
+		bottom:20px;
+		width:100%;
+		height:60px;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+	}
+
+		.taskView .addNewTask input{
+			width:70%;
+			height:30px;
+			font-size:1.3em;
+		}
+
+		.taskView .addNewTask .addTaskSVGContainer {
+			width: 10%;
+			height: 30px;
+			margin-left:5px;
+			border-radius:5px;
+		}
+
+			.taskView .addNewTask .addTaskSVGContainer:hover {
+				background-color: var(--btn-hover-color);
+			}
+
+			.taskView .addNewTask .addTaskSVGContainer svg {
+				width: 100%;
+				height: 100%;
+			}

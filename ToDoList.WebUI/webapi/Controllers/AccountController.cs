@@ -21,8 +21,19 @@ namespace webapi.Controllers
 		}
 
 		[HttpPost("Register")]
-		public async Task<ActionResult<UserDTO>> RegisterAsync(RegistrationCommand registrationCommand)
+		public async Task<ActionResult<UserDTO>> RegisterAsync()
 		{
+			var formCollection = await Request.ReadFormAsync();
+
+			RegistrationCommand registrationCommand = new()
+			{
+				FirstName = formCollection["FirstName"],
+				LastName = formCollection["LastName"],
+				Email = formCollection["Email"],
+				Image = formCollection.Files.First(),
+				Password= formCollection["Password"]
+			};
+
 			return await mediator.Send(registrationCommand);
 		}
 

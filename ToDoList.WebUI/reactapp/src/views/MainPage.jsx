@@ -30,6 +30,7 @@ function mapStateToProps(state) {
     return {
         tasks: state.get("tasks"),
         taskListName: state.get("taskListName"),
+        taskListId: state.get("taskListId"),
     };
 }
 

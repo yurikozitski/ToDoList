@@ -12,3 +12,10 @@ export function updateTaskListName(taskListName) {
         taskListName
     }
 }
+
+export function updateTaskListId(taskListId) {
+    return {
+        type: "UPDATE_TASKLISTID",
+        taskListId
+    }
+}
