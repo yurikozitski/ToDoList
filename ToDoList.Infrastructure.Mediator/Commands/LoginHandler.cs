@@ -41,11 +41,25 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 			
 			if (result.Succeeded)
 			{
+				byte[]? imageByteArryay = null;
+
+				var relativeImagePath = user.ImagePath?? Path.Combine("UserUploads\\DefaultProfilePicture", "DefaultProfilePicture.jpg");
+				var fullImagePath = Path.Combine(Directory.GetCurrentDirectory(), relativeImagePath);
+
+				using (var fileStream = new FileStream(fullImagePath, FileMode.Open))
+				{
+					using (var memoryStream = new MemoryStream())
+					{
+						await fileStream.CopyToAsync(memoryStream);
+						imageByteArryay = memoryStream.ToArray();
+					}
+				}
+
 				return new UserDTO
 				{
 					FullName = user.FullName,
 					Token = jwtGenerator.CreateToken(user),
-					ImagePath = null
+					ImageData = Convert.ToBase64String(imageByteArryay)
 				};
 			}
 

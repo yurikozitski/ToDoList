@@ -24,13 +24,23 @@ namespace webapi.Controllers
 		public async Task<ActionResult<UserDTO>> RegisterAsync()
 		{
 			var formCollection = await Request.ReadFormAsync();
+			IFormFile? image;
 
-			RegistrationCommand registrationCommand = new()
+			if (formCollection.Files.Count == 0) 
+			{
+				image = null;
+			}
+            else
+            {
+                image= formCollection.Files.First();
+            }
+
+            RegistrationCommand registrationCommand = new()
 			{
 				FirstName = formCollection["FirstName"],
 				LastName = formCollection["LastName"],
 				Email = formCollection["Email"],
-				Image = formCollection.Files.First(),
+				Image = image,
 				Password= formCollection["Password"]
 			};
 

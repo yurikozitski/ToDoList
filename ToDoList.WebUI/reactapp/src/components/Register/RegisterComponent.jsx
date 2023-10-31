@@ -9,6 +9,7 @@ export function RegisterComponent() {
     const [emailInput, emailInputHandler] = useState("");
     const [imageInput, imageInputHandler] = useState("");
     const [passwordInput, passwordInputHandler] = useState("");
+    const [confirmPasswordInput, confirmPasswordInputHandler] = useState("");
 
     const navigate = useNavigate();
 
@@ -32,8 +33,17 @@ export function RegisterComponent() {
         passwordInputHandler(e.target.value);
     }
 
+    function confirmPasswordChange(e) {
+        confirmPasswordInputHandler(e.target.value);
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
+
+        if (passwordInput !== confirmPasswordInput) {
+            alert('Confirm your password');
+            return;
+        }
 
         let registerForm = new FormData();
         registerForm.append('FirstName', firstNameInput);
@@ -44,17 +54,6 @@ export function RegisterComponent() {
 
         const response = await fetch('https://localhost:44360/Account/Register', {
             method: 'POST',
-            //headers: {
-            //    //'Content-Type': 'application/json'
-            //    'Content-Type': 'multipart/form-data'
-            //},
-            //body: JSON.stringify({
-            //    "FirstName": firstNameInput,
-            //    "LastName": lastNameInput,
-            //    "Email": emailInput,
-            //    "Image": imageInput,
-            //    "Password": passwordInput
-            //})
             body: registerForm
         });
         if (response.status === 200) {
@@ -64,7 +63,7 @@ export function RegisterComponent() {
             localStorage.clear();
 
             localStorage.setItem("userName", user.fullName);
-            localStorage.setItem("imagePath", user.imagePath);
+            localStorage.setItem("imageData", user.imageData);
             localStorage.setItem("token", user.token);
 
             navigate("/");
@@ -103,7 +102,7 @@ export function RegisterComponent() {
                 </p>
                 <p>
                     <label htmlFor="confirmpassword">Confirm Password:</label><br />
-                    <input type="password" id="confirmpassword" name="ConfirmPassword" required minLength="3" maxLength="20" />
+                    <input type="password" id="confirmpassword" name="ConfirmPassword" onChange={confirmPasswordChange} required minLength="3" maxLength="20" />
                 </p>
                 
                     <div className="button"><input type="submit" value="Register" /></div>

@@ -104,7 +104,7 @@ namespace ToDoList.Infrastructure.Repositories
 
 		public async Task<IEnumerable<UserTask>> GetImportantTasksAsync(string? userEmail)
 		{
-			var userTasks = await db.UserTasks.Where(ut => ut.IsImportant).ToListAsync();
+			var userTasks = await db.UserTasks.Where(ut => ut.IsImportant&&ut.TaskList.User.Email==userEmail).ToListAsync();
 			return userTasks;
 		}
 	}

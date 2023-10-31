@@ -10,7 +10,7 @@ namespace ToDoList.Core.Models
 	{
 		public Guid Id { get; set; }
 		public string? TaskListName { get; set; }
-		public User User { get; set; }
+		public User? User { get; set; }
 		public List<UserTask> Tasks { get; set; } = new List<UserTask>();
 	}
 }

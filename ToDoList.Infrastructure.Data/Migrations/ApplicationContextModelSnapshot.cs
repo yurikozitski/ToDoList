@@ -164,12 +164,15 @@ namespace ToDoList.Infrastructure.Data.Migrations
                     b.Property<string>("TaskListName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("TaskLists");
                 });
@@ -337,7 +340,7 @@ namespace ToDoList.Infrastructure.Data.Migrations
                 {
                     b.HasOne("ToDoList.Core.Models.User", "User")
                         .WithMany("TaskLists")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });

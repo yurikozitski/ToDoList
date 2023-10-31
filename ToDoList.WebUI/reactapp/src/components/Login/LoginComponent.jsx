@@ -37,7 +37,7 @@ export function LoginComponent() {
             localStorage.clear();
 
             localStorage.setItem("userName", user.fullName);
-            localStorage.setItem("imagePath", user.imagePath);
+            localStorage.setItem("imageData", user.imageData);
             localStorage.setItem("token", user.token);
 
             navigate("/");

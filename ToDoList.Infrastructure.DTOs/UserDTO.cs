@@ -9,7 +9,7 @@ namespace ToDoList.Infrastructure.DTOs
 	public class UserDTO
 	{
 		public string? FullName { get; set; }
-		public string? ImagePath { get; set; }
+		public string? ImageData { get; set; }
 		public string? Token { get; set; }
 
 	}

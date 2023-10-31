@@ -17,6 +17,8 @@ using ToDoList.Core.AuthInterfaces;
 using ToDoList.Infrastructure.Auth;
 using ToDoList.Core.RepositoryInterfaces;
 using webapi.Middleware;
+using ToDoList.Core.ServiceInterfaces;
+using ToDoList.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +60,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Re
 builder.Services.AddTransient<IJwtGenerator,JwtGenerator>();
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddTransient<ITaskRepository,TaskRepository>();
+builder.Services.AddSingleton<IImageValidator,ImageValidator>();
 
 builder.Services.AddCors();
 

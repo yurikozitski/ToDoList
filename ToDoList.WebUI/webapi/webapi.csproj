@@ -18,9 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\ToDoList.Infrastructure.Services.csproj" />
     <ProjectReference Include="..\..\ToDoList.Infrastructure.Data\ToDoList.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\..\ToDoList.Infrastructure.Mediator\ToDoList.Infrastructure.Mediator.csproj" />
     <ProjectReference Include="..\..\ToDoList.Infrastructure.Repositories\ToDoList.Infrastructure.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UserUploads\UserProfilePictures\" />
   </ItemGroup>
 
 </Project>

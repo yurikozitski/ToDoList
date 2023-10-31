@@ -187,6 +187,10 @@ export function SideBar(props) {
                alert('Task list name is too long');
                return;
            }
+           else if (addNewTaskListInput === 'All Tasks' || addNewTaskListInput === 'Planned' || addNewTaskListInput === 'Important') {
+               alert("Task list name should not be 'All Tasks','Planned' or'Important'");
+               return;
+           }
 
             const response = await fetch('https://localhost:44360/Tasks/AddTaskList', {
                 method: 'POST',
@@ -205,8 +209,6 @@ export function SideBar(props) {
             else {
                 alert('Error occured while adding new tasklist');
             }
-
-        
        }
    }
 
@@ -240,8 +242,8 @@ export function SideBar(props) {
                         <div className="userLink" onClick={signOut}>Sign out</div>
                     </div>
                 </div>
-                <img src="C:\MyApps\NatterLite\wwwroot\Images\profilepicexample.png" alt="" />
-                <h3>Matt Jackson</h3>
+                <img src={`data:image/jpeg;base64,${localStorage.getItem("imageData")}`} alt="" />
+                <h3>{localStorage.getItem("userName")}</h3>
             </div>
 
             <div className="defaultTaskLists">
