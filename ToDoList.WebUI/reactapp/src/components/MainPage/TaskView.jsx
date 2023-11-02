@@ -4,6 +4,7 @@ import { ThinCheckMark } from '../../svg/ThinCheckMark';
 import { SharpStar } from '../../svg/SharpStar';
 import { DeleteMark } from '../../svg/DeleteMark';
 import { RightArrow } from '../../svg/RightArrow';
+import { BackButton } from '../../svg/BackButton';
 
 
 export function TaskView(props) {
@@ -172,7 +173,12 @@ export function TaskView(props) {
         <div className="taskView">
             {
                 props.taskListName === "" ? (<div className="emptyTaskView">Click on the task list to the left to see your tasks here.</div>)
-                    : (<div className="taskListNameBlock">{props.taskListName}</div>)
+                    : (<div className="taskListNameBlock">
+                        <div className="backButton" onClick={() => props.updateTaskListId("")}>
+                            <BackButton />
+                        </div>
+                        {props.taskListName}
+                    </div>)
             }
             {
                 props.tasks.length === 0 && props.taskListName!="" ? (<div className="emptyTaskView">There are no tasks in this task list.</div>)

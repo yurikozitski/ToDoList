@@ -57,7 +57,7 @@ export function LoginComponent() {
               </p>
               <p>
                   <label htmlFor="password">Password:</label><br />
-                  <input type="password" id="password" name="Password" onChange={passwordChange} required minLength="3" maxLength="20" />
+                  <input type="password" id="password" name="Password" onChange={passwordChange} required minLength="8" maxLength="50" />
               </p>
               <div className="button"><input type="submit" value="Log In" /></div>
               <p>Don't have an account? <NavLink to="/Register">Register</NavLink></p>

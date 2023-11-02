@@ -12,6 +12,8 @@ using ToDoList.Core.RepositoryInterfaces;
 using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Exeptions;
 using ToDoList.Infrastructure.DTOs;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
@@ -20,16 +22,35 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 		private readonly IJwtGenerator jwtGenerator;
 		private readonly IUserRepository userRepository;
 		private readonly SignInManager<User> signInManager;
+		private readonly IValidator<LoginCommand> commandValidator;
 
-		public LoginHandler(IUserRepository _userRepository, SignInManager<User> _signInManager, IJwtGenerator _jwtGenerator)
+		public LoginHandler(IUserRepository _userRepository, 
+			SignInManager<User> _signInManager,
+			IJwtGenerator _jwtGenerator,
+			IValidator<LoginCommand> _commandValidator)
 		{
 			userRepository = _userRepository;
 			signInManager = _signInManager;
 			jwtGenerator = _jwtGenerator;
+			commandValidator = _commandValidator;
 		}
 
 		public async Task<UserDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
 		{
+
+			ValidationResult validationResult = await commandValidator.ValidateAsync(request);
+
+			if (!validationResult.IsValid)
+			{
+				string? mes = "";
+				foreach (var error in validationResult.Errors)
+				{
+					mes += $"{error.PropertyName} : {error.ErrorMessage}; ";
+				}
+
+				throw new Exception(mes);
+			}
+
 			var user= await userRepository.GetByEmailAsync(request.Email);
 
 			if (user == null)

@@ -14,6 +14,8 @@ using ToDoList.Infrastructure.Exeptions;
 using ToDoList.Core.RepositoryInterfaces;
 using System.IO;
 using ToDoList.Core.ServiceInterfaces;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
@@ -22,12 +24,17 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 		private readonly IUserRepository userRepository;
 		private readonly IJwtGenerator jwtGenerator;
 		private readonly IImageValidator imageValidator;
+		private readonly IValidator<RegistrationCommand> commandValidator;
 
-		public RegistrationHandler(IUserRepository _userRepository, IJwtGenerator _jwtGenerator, IImageValidator _imageValidator)
+		public RegistrationHandler(IUserRepository _userRepository,
+			IJwtGenerator _jwtGenerator, 
+			IImageValidator _imageValidator, 
+			IValidator<RegistrationCommand> _commandValidator)
 		{
 			userRepository = _userRepository;
 			jwtGenerator = _jwtGenerator;
 			imageValidator = _imageValidator;
+			commandValidator = _commandValidator;
 		}
 
 		public async Task<UserDTO> Handle(RegistrationCommand request, CancellationToken cancellationToken)
@@ -35,6 +42,19 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 			if (await userRepository.GetByEmailAsync(request.Email)!=null)
 			{
 				throw new RestException(HttpStatusCode.BadRequest, "Email already exist" );
+			}
+
+			ValidationResult validationResult = await commandValidator.ValidateAsync(request);
+
+			if (!validationResult.IsValid)
+			{
+				string? mes="";
+				foreach (var error in validationResult.Errors)
+				{
+					mes += $"{error.PropertyName} : {error.ErrorMessage}; ";
+				}
+
+				throw new Exception(mes);
 			}
 
 			string? relativeImagePath=null;

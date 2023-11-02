@@ -1,0 +1,5 @@
+2023-11-02 16:59:29.2527 Info Registered target NLog.Targets.FileTarget(Name=output)
+2023-11-02 16:59:29.2654 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.5.2160. Product version: 5.2.5+7c014325443d65541200b698a50b9dd4ec30c7f0. GlobalAssemblyCache: False
+2023-11-02 16:59:29.2821 Info Validating config: TargetNames=output, ConfigItems=16, FilePath=C:\MyApps\ToDoList\ToDoList.WebUI\webapi\bin\Debug\net7.0\NLog.config
+2023-11-02 16:59:29.2927 Info Configuration initialized.
+2023-11-02 16:59:29.5044 Info Validating config: TargetNames=output, ConfigItems=16, FilePath=C:\MyApps\ToDoList\ToDoList.WebUI\webapi\bin\Debug\net7.0\NLog.config

@@ -27,13 +27,9 @@ namespace webapi.Controllers
 			IFormFile? image;
 
 			if (formCollection.Files.Count == 0) 
-			{
 				image = null;
-			}
             else
-            {
                 image= formCollection.Files.First();
-            }
 
             RegistrationCommand registrationCommand = new()
 			{

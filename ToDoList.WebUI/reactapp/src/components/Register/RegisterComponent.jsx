@@ -79,11 +79,11 @@ export function RegisterComponent() {
             <form onSubmit={handleSubmit}>
                 <p>
                     <label htmlFor="firstName">First Name:</label><br />
-                    <input type="text" id="firstName" onChange={firstNameChange} required minLength="3" maxLength="20" />
+                    <input type="text" id="firstName" onChange={firstNameChange} required minLength="2" maxLength="20" />
                 </p>
                 <p>
                     <label htmlFor="lastName">Last Name:</label><br />
-                    <input type="text" id="lastName" onChange={lastNameChange} required />
+                    <input type="text" id="lastName" onChange={lastNameChange} required minLength="2" maxLength="20" />
                 </p>
                 <p>
                     <label htmlFor="email">Email:</label><br />
@@ -98,11 +98,11 @@ export function RegisterComponent() {
                 </p>
                 <p>
                     <label htmlFor="password">Password:</label><br />
-                    <input type="password" id="password" name="Password" onChange={passwordChange} required minLength="3" maxLength="20" />
+                    <input type="password" id="password" name="Password" onChange={passwordChange} required minLength="8" maxLength="50" />
                 </p>
                 <p>
                     <label htmlFor="confirmpassword">Confirm Password:</label><br />
-                    <input type="password" id="confirmpassword" name="ConfirmPassword" onChange={confirmPasswordChange} required minLength="3" maxLength="20" />
+                    <input type="password" id="confirmpassword" name="ConfirmPassword" onChange={confirmPasswordChange} required minLength="8" maxLength="50" />
                 </p>
                 
                     <div className="button"><input type="submit" value="Register" /></div>

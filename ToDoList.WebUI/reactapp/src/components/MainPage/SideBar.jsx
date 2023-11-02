@@ -87,6 +87,7 @@ export function SideBar(props) {
 
             props.updateTasks(tasks);
             props.updateTaskListName("All Tasks");
+            props.updateTaskListId("all_tasks");
         }
         else {
             alert('Error occured while fething your tasks');
@@ -109,6 +110,7 @@ export function SideBar(props) {
 
             props.updateTasks(tasks);
             props.updateTaskListName("Planned");
+            props.updateTaskListId("planned");
         }
         else {
             alert('Error occured while fething your tasks');
@@ -131,6 +133,7 @@ export function SideBar(props) {
 
             props.updateTasks(tasks);
             props.updateTaskListName("Important");
+            props.updateTaskListId("important");
         }
         else {
             alert('Error occured while fething your tasks');
@@ -171,6 +174,7 @@ export function SideBar(props) {
 
     function signOut() {
         localStorage.clear();
+        props.updateTasks([]);
         navigate("/Login");
     }
 
@@ -222,7 +226,12 @@ export function SideBar(props) {
     }
 
     return (
-        <div className="sideBar">
+        <div className="sideBar"
+            style={{
+                zIndex:
+                    props.taskListId === "" ? 2 : 0,
+            }}
+        >
             <div className="logo-and-themeToggle">
                 <BlackFilledCheckMark/>
 				<span>ToDoList</span>
