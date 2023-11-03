@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceInterfaces\ToDoList.Core.ServiceInterfaces.csproj" />
+    <ProjectReference Include="..\ToDoList.Core.ServiceInterfaces\ToDoList.Core.ServiceInterfaces.csproj" />
   </ItemGroup>
 
 </Project>

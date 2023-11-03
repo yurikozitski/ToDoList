@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceInterfaces\ToDoList.Core.ServiceInterfaces.csproj" />
+    <ProjectReference Include="..\ToDoList.Core.ServiceInterfaces\ToDoList.Core.ServiceInterfaces.csproj" />
     <ProjectReference Include="..\ToDoList.Core.Models\ToDoList.Core.Models.csproj" />
     <ProjectReference Include="..\ToDoList.Core.RepositoryInterfaces\ToDoList.Core.RepositoryInterfaces.csproj" />
     <ProjectReference Include="..\ToDoList.Infrastructure.Auth\ToDoList.Infrastructure.Auth.csproj" />

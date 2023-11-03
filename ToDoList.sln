@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.Core.AuthInterface
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.Infrastructure.Exeptions", "ToDoList.Infrastructure.Exeptions\ToDoList.Infrastructure.Exeptions.csproj", "{A4603912-2245-4B5E-B39F-C63F3497B7F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Core.ServiceInterfaces", "ServiceInterfaces\ToDoList.Core.ServiceInterfaces.csproj", "{A83D323B-CC16-42A5-A0C3-BA54E8A2064C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Core.ServiceInterfaces", "ToDoList.Core.ServiceInterfaces\ToDoList.Core.ServiceInterfaces.csproj", "{A83D323B-CC16-42A5-A0C3-BA54E8A2064C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Infrastructure.Services", "Services\ToDoList.Infrastructure.Services.csproj", "{F008BD1D-AA21-48D2-BD4E-4B12B65BB51E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Infrastructure.Services", "ToDoList.Infrastructure.Services\ToDoList.Infrastructure.Services.csproj", "{F008BD1D-AA21-48D2-BD4E-4B12B65BB51E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
