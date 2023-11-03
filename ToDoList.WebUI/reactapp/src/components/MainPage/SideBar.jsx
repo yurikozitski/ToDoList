@@ -187,7 +187,7 @@ export function SideBar(props) {
                alert('Task list name is too short');
                return;
            }
-           else if (addNewTaskListInput.length > 15) {
+           else if (addNewTaskListInput.length > 25) {
                alert('Task list name is too long');
                return;
            }
