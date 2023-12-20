@@ -24,14 +24,7 @@ namespace webapi.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<TaskList>>> GetTaskLists()
 		{
-			try
-			{
-				return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name });
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name });
 		}
 
 		[HttpPost]
@@ -52,109 +45,56 @@ namespace webapi.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddUserTask(AddUserTaskCommand addUserTaskCommand)
 		{
-			try
-			{
-				await mediator.Send(addUserTaskCommand);
-				return Ok();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			await mediator.Send(addUserTaskCommand);
+			return Ok();
 		}
 
 		[HttpPatch]
 		public async Task<IActionResult> MarkUserTaskAsDone(MarkUserTaskAsDoneCommand markUserTaskAsDoneCommand)
 		{
-			try
-			{
-				await mediator.Send(markUserTaskAsDoneCommand);
-				return Ok();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			await mediator.Send(markUserTaskAsDoneCommand);
+			return Ok();
 		}
 
 		[HttpPatch]
 		public async Task<IActionResult> MarkUserTaskAsImportant(MarkUserTaskAsImportantCommand markUserTaskAsImportantCommand)
 		{
-			try
-			{
-				await mediator.Send(markUserTaskAsImportantCommand);
-				return Ok();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			await mediator.Send(markUserTaskAsImportantCommand);
+			return Ok();
 		}
 
 		[HttpPatch]
 		public async Task<IActionResult> AddUserTaskPlannedTime(AddUserTaskPlannedTimeCommand addUserTaskPlannedTimeCommand)
 		{
-			try
-			{
-				await mediator.Send(addUserTaskPlannedTimeCommand);
-				return Ok();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			
+			await mediator.Send(addUserTaskPlannedTimeCommand);
+			return Ok();
 		}
 
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetAllUserTasks()
 		{
-			try
-			{
-				return await mediator.Send(new GetAllUserTasksQuery() { UserEmail = User.Identity?.Name });
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+
+			return await mediator.Send(new GetAllUserTasksQuery() { UserEmail = User.Identity?.Name });
 		}
 
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetUserTasksByTaskList([FromQuery]string taskListId)
 		{
-			try
-			{
-				return await mediator.Send(new GetUserTasksByTaskListQuery() { TaskListId = Guid.Parse(taskListId) });
-			}
-			catch (Exception ex) 
-			{
-				return BadRequest(ex.Message);
-			}
+			return await mediator.Send(new GetUserTasksByTaskListQuery() { TaskListId = Guid.Parse(taskListId) });
 		}
 
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetPlannedTasks()
 		{
-			try
-			{
-				return await mediator.Send(new GetPlannedTasksQuery() { UserEmail = User.Identity?.Name });
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+
+			return await mediator.Send(new GetPlannedTasksQuery() { UserEmail = User.Identity?.Name });
 		}
 
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetImportantTasks()
 		{
-			try
-			{
-				return await mediator.Send(new GetImportantTasksQuery() { UserEmail = User.Identity?.Name });
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			return await mediator.Send(new GetImportantTasksQuery() { UserEmail = User.Identity?.Name });
 		}
 	}
 }
