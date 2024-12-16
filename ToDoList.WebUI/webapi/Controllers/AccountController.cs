@@ -48,8 +48,5 @@ namespace webapi.Controllers
 		{
 			return await mediator.Send(loginCommand);
 		}
-
 	}	
-	
-
 }

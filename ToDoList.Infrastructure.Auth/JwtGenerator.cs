@@ -20,12 +20,12 @@ namespace ToDoList.Infrastructure.Auth
 
 		public JwtGenerator(IConfiguration config)
 		{
-			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token"]));
+			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token"]!));
 		}
 
 		public string CreateToken(User user)
 		{
-			var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
+			var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email!) };
 
 			var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

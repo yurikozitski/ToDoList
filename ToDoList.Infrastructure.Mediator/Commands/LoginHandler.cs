@@ -42,7 +42,7 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 
 			if (!validationResult.IsValid)
 			{
-				string? mes = "";
+				string? mes = string.Empty;
 				foreach (var error in validationResult.Errors)
 				{
 					mes += $"{error.PropertyName} : {error.ErrorMessage}; ";

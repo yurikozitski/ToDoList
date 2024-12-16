@@ -39,22 +39,22 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 
 		public async Task<UserDTO> Handle(RegistrationCommand request, CancellationToken cancellationToken)
 		{
-			if (await userRepository.GetByEmailAsync(request.Email)!=null)
-			{
-				throw new RestException(HttpStatusCode.BadRequest, "Email already exist" );
-			}
-
 			ValidationResult validationResult = await commandValidator.ValidateAsync(request);
 
 			if (!validationResult.IsValid)
 			{
-				string? mes="";
+				string? mes = string.Empty;
 				foreach (var error in validationResult.Errors)
 				{
 					mes += $"{error.PropertyName} : {error.ErrorMessage}; ";
 				}
 
 				throw new Exception(mes);
+			}
+
+			if (await userRepository.GetByEmailAsync(request.Email!)!=null)
+			{
+				throw new RestException(HttpStatusCode.BadRequest, "Email already exist" );
 			}
 
 			string? relativeImagePath=null;
@@ -111,7 +111,7 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 				UserName="_"+request.Email
 			};
 
-			var result = await userRepository.CreateAsync(user, request.Password);
+			var result = await userRepository.CreateAsync(user, request.Password!);
 
 			if (result)
 			{
