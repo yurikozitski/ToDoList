@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Mediator.Commands;
@@ -9,7 +8,7 @@ using ToDoList.Infrastructure.Mediator.Queries;
 
 namespace webapi.Controllers
 {
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[ApiController]
 	[Route("[controller]/[action]")]
 	public class TasksController : ControllerBase
@@ -24,7 +23,7 @@ namespace webapi.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<TaskList>>> GetTaskLists()
 		{
-			return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name });
+			return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name! });
 		}
 
 		[HttpPost]
@@ -32,7 +31,7 @@ namespace webapi.Controllers
 		{
 			if (addTaskListCommand.TaskListName != null) 
 			{
-				addTaskListCommand.UserEmail = User.Identity?.Name;
+				addTaskListCommand.UserEmail = User.Identity?.Name!;
 				await mediator.Send(addTaskListCommand);
 				return Ok();
 			}
@@ -65,8 +64,7 @@ namespace webapi.Controllers
 
 		[HttpPatch]
 		public async Task<IActionResult> AddUserTaskPlannedTime(AddUserTaskPlannedTimeCommand addUserTaskPlannedTimeCommand)
-		{
-			
+		{			
 			await mediator.Send(addUserTaskPlannedTimeCommand);
 			return Ok();
 		}
@@ -74,8 +72,7 @@ namespace webapi.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetAllUserTasks()
 		{
-
-			return await mediator.Send(new GetAllUserTasksQuery() { UserEmail = User.Identity?.Name });
+			return await mediator.Send(new GetAllUserTasksQuery() { UserEmail = User.Identity?.Name! });
 		}
 
 		[HttpGet]
@@ -87,14 +84,13 @@ namespace webapi.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetPlannedTasks()
 		{
-
-			return await mediator.Send(new GetPlannedTasksQuery() { UserEmail = User.Identity?.Name });
+			return await mediator.Send(new GetPlannedTasksQuery() { UserEmail = User.Identity?.Name! });
 		}
 
 		[HttpGet]
 		public async Task<ActionResult<List<UserTask>>> GetImportantTasks()
 		{
-			return await mediator.Send(new GetImportantTasksQuery() { UserEmail = User.Identity?.Name });
+			return await mediator.Send(new GetImportantTasksQuery() { UserEmail = User.Identity?.Name! });
 		}
 	}
 }

@@ -6,12 +6,12 @@ namespace webapi.Middleware
 {
 	public class ErrorHandlingMiddleware
 	{
-		private readonly RequestDelegate _next;
+		private readonly RequestDelegate next;
 		private readonly ILogger<ErrorHandlingMiddleware> logger;
 
-		public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> _logger)
+		public ErrorHandlingMiddleware(RequestDelegate _next, ILogger<ErrorHandlingMiddleware> _logger)
 		{
-			_next = next;
+			next = _next;
 			logger = _logger;
 		}
 
@@ -19,7 +19,7 @@ namespace webapi.Middleware
 		{
 			try
 			{
-				await _next(context);
+				await next(context);
 			}
 			catch (Exception ex)
 			{
@@ -29,7 +29,7 @@ namespace webapi.Middleware
 
 		private async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger<ErrorHandlingMiddleware> _logger)
 		{
-			string? message="";
+			string? message = string.Empty;
 
 			switch (ex)
 			{
@@ -40,15 +40,15 @@ namespace webapi.Middleware
 					break;
 
 				case Exception e:
-					_logger.LogError(ex, "Server error");
-					message = string.IsNullOrWhiteSpace(e.Message) ? "error" : e.Message;
+					_logger.LogError(e, "Server error");
+					message = "Server error occured";
 					context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 					break;
 			}
 
 			context.Response.ContentType = "appliation/json";
 
-			if (message != "")
+			if (message != string.Empty)
 			{
 				var result = JsonConvert.SerializeObject(new
 				{

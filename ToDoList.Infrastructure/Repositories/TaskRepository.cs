@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDoList.Core.RepositoryInterfaces;
+﻿using ToDoList.Core.RepositoryInterfaces;
 using ToDoList.Core.Models;
 using ToDoList.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace ToDoList.Infrastructure.Repositories
 {
-	public class TaskRepository:ITaskRepository
+    public class TaskRepository : ITaskRepository
 	{
 		private readonly ApplicationContext db;
 
@@ -18,45 +13,47 @@ namespace ToDoList.Infrastructure.Repositories
 		{
 			db = _context;
 		}
-		public async Task<IEnumerable<TaskList>> GetTaskListsAsync(string? userEmail)
+		public async Task<IEnumerable<TaskList>> GetTaskListsAsync(string userEmail)
 		{
 			return await db.TaskLists.Where(tl => tl.User.Email == userEmail).ToListAsync();
 		}
 
-		public async Task AddTaskListAsync(string? taskListName, User? user)
+		public async Task AddTaskListAsync(string taskListName, User user)
 		{
-			TaskList taskList=new TaskList()
+			TaskList taskList = new TaskList()
 			{
 				TaskListName = taskListName,
-				User = user!
+				User = user
 			};
 
 			await db.TaskLists.AddAsync(taskList);
 			await db.SaveChangesAsync();
 		}
 
-		public async Task AddUserTaskAsync(Guid taskListId, string? text)
+		public async Task AddUserTaskAsync(Guid taskListId, string text)
 		{
+			TaskList? taskList = await db.TaskLists.FindAsync(taskListId);
 
-			TaskList? taskList=await db.TaskLists.FindAsync(taskListId);
+            if (taskList != null)
+            {
+				UserTask userTask = new UserTask()
+				{
+					TaskList = taskList,
+					Text = text,
+				};
 
-			UserTask userTask = new UserTask()
-			{
-				TaskList=taskList?? throw new NullReferenceException("Null task id"),
-				Text = text
-			};
-
-			await db.UserTasks.AddAsync(userTask);
-			await db.SaveChangesAsync();
+				await db.UserTasks.AddAsync(userTask);
+				await db.SaveChangesAsync();                
+            }
 		}
 
 		public async Task MarkUserTaskAsDoneAsync(Guid userTaskId)
 		{
-			UserTask? userTask= await db.UserTasks.FirstOrDefaultAsync(t=>t.Id==userTaskId);
+			UserTask? userTask= await db.UserTasks.FirstOrDefaultAsync(t => t.Id == userTaskId);
 
-			if (userTask!=null) 
+			if (userTask != null) 
 			{
-				userTask.IsDone = userTask.IsDone?false:true;
+				userTask.IsDone = !userTask.IsDone;
 				await db.SaveChangesAsync();
 			}
 		}
@@ -67,7 +64,7 @@ namespace ToDoList.Infrastructure.Repositories
 
 			if (userTask != null)
 			{
-				userTask.IsImportant = userTask.IsImportant ? false : true;
+				userTask.IsImportant = !userTask.IsImportant;
 				await db.SaveChangesAsync();
 			}
 		}
@@ -83,7 +80,7 @@ namespace ToDoList.Infrastructure.Repositories
 			}
 		}
 
-		public async Task<IEnumerable<UserTask>> GetAllUserTasksAsync(string? userEmail)
+		public async Task<IEnumerable<UserTask>> GetAllUserTasksAsync(string userEmail)
 		{
 			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.User.Email == userEmail).ToListAsync();
 			return userTasks;
@@ -91,20 +88,20 @@ namespace ToDoList.Infrastructure.Repositories
 
 		public async Task<IEnumerable<UserTask>> GetUserTasksByTaskListAsync(Guid taskListId)
 		{
-			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.Id==taskListId).ToListAsync();
+			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.Id == taskListId).ToListAsync();
 			return userTasks;
 		}
 
-		public async Task<IEnumerable<UserTask>> GetPlannedTasksAsync(string? userEmail)
+		public async Task<IEnumerable<UserTask>> GetPlannedTasksAsync(string userEmail)
 		{
-			DateTime defaultDate=new DateTime();
-			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.User.Email == userEmail&&ut.PlannedTime>defaultDate).ToListAsync();
+			DateTime defaultDate = new DateTime();
+			var userTasks = await db.UserTasks.Where(ut => ut.TaskList.User.Email == userEmail && ut.PlannedTime > defaultDate).ToListAsync();
 			return userTasks;
 		}
 
-		public async Task<IEnumerable<UserTask>> GetImportantTasksAsync(string? userEmail)
+		public async Task<IEnumerable<UserTask>> GetImportantTasksAsync(string userEmail)
 		{
-			var userTasks = await db.UserTasks.Where(ut => ut.IsImportant&&ut.TaskList.User.Email==userEmail).ToListAsync();
+			var userTasks = await db.UserTasks.Where(ut => ut.IsImportant && ut.TaskList.User.Email == userEmail).ToListAsync();
 			return userTasks;
 		}
 	}

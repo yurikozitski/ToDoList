@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDoList.Infrastructure.Mediator.Commands;
+﻿using ToDoList.Infrastructure.Mediator.Commands;
 using FluentValidation;
 
 namespace ToDoList.Infrastructure.Mediator.Validators
 {
-	public class RegistrationCommandValidator : AbstractValidator<RegistrationCommand>
+    public class RegistrationCommandValidator : AbstractValidator<RegistrationCommand>
 	{
 		public RegistrationCommandValidator()
 		{

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDoList.Core.Models;
+﻿using ToDoList.Core.Models;
 using ToDoList.Core.RepositoryInterfaces;
 using ToDoList.Infrastructure.Mediator.Queries;
 
 namespace ToDoList.Tests.QueriesTests
 {
-	public class GetImportantTasksTest
+    public class GetImportantTasksTest
 	{
 		[Fact]
 		public void GetImportantTasksDoesNotReturnNull()

@@ -1,57 +1,32 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using ToDoList.Core.AuthInterfaces;
 using ToDoList.Core.Models;
 using ToDoList.Core.RepositoryInterfaces;
-using ToDoList.Infrastructure.Data;
 using ToDoList.Infrastructure.Exeptions;
 using ToDoList.Infrastructure.DTOs;
-using FluentValidation;
-using FluentValidation.Results;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
-	public class LoginHandler : IRequestHandler<LoginCommand, UserDTO>
+    public class LoginHandler : IRequestHandler<LoginCommand, UserDto>
 	{
 		private readonly IJwtGenerator jwtGenerator;
 		private readonly IUserRepository userRepository;
 		private readonly SignInManager<User> signInManager;
-		private readonly IValidator<LoginCommand> commandValidator;
-
+		
 		public LoginHandler(IUserRepository _userRepository, 
 			SignInManager<User> _signInManager,
-			IJwtGenerator _jwtGenerator,
-			IValidator<LoginCommand> _commandValidator)
+			IJwtGenerator _jwtGenerator)
 		{
 			userRepository = _userRepository;
 			signInManager = _signInManager;
 			jwtGenerator = _jwtGenerator;
-			commandValidator = _commandValidator;
 		}
 
-		public async Task<UserDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
-		{
-
-			ValidationResult validationResult = await commandValidator.ValidateAsync(request);
-
-			if (!validationResult.IsValid)
-			{
-				string? mes = string.Empty;
-				foreach (var error in validationResult.Errors)
-				{
-					mes += $"{error.PropertyName} : {error.ErrorMessage}; ";
-				}
-
-				throw new Exception(mes);
-			}
-
-			var user= await userRepository.GetByEmailAsync(request.Email);
+		public async Task<UserDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+		{			
+			var user = await userRepository.GetByEmailAsync(request.Email);
 
 			if (user == null)
 			{
@@ -60,11 +35,11 @@ namespace ToDoList.Infrastructure.Mediator.Commands
  
 			var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 			
+			byte[]? imageByteArryay = null;
+
 			if (result.Succeeded)
 			{
-				byte[]? imageByteArryay = null;
-
-				var relativeImagePath = user.ImagePath?? Path.Combine("UserUploads\\DefaultProfilePicture", "DefaultProfilePicture.jpg");
+				var relativeImagePath = user.ImagePath ?? Path.Combine("UserUploads\\DefaultProfilePicture", "DefaultProfilePicture.jpg");
 				var fullImagePath = Path.Combine(Directory.GetCurrentDirectory(), relativeImagePath);
 
 				using (var fileStream = new FileStream(fullImagePath, FileMode.Open))
@@ -75,16 +50,18 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 						imageByteArryay = memoryStream.ToArray();
 					}
 				}
-
-				return new UserDTO
-				{
-					FullName = user.FullName,
-					Token = jwtGenerator.CreateToken(user),
-					ImageData = Convert.ToBase64String(imageByteArryay)
-				};
+			}
+			else
+			{
+                throw new RestException(HttpStatusCode.BadRequest, "Login failed, enter password again");
 			}
 
-			throw new Exception("Login failed");
-		}
+            return new UserDto
+            {
+                FullName = user.FullName,
+                Token = jwtGenerator.CreateToken(user),
+                ImageData = Convert.ToBase64String(imageByteArryay)
+            };
+        }
 	}
 }

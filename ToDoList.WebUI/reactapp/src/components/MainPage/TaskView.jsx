@@ -123,7 +123,7 @@ export function TaskView(props) {
 
             let updatedTasks = props.tasks.map((task) => {
                 if (task.id === taskId) {
-                    return { ...task, isDone: task.isDone ? false : true };
+                    return { ...task, isDone: !task.isDone };
                 }
                 return task;
             });

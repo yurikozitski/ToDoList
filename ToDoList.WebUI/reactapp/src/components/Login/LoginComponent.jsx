@@ -20,7 +20,9 @@ export function LoginComponent() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const response = await fetch('https://localhost:44360/Account/Login', {
+        const url = import.meta.env.VITE_API_URL;
+        
+        const response = await fetch(url + '/Account/Login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

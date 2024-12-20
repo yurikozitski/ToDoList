@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace ToDoList.Infrastructure.Exeptions
 {
-	public class RestException : Exception
+    public class RestException : Exception
 	{
+		public HttpStatusCode Code { get; }
+
+		public string? ErrorMessage { get; set; }
+
 		public RestException(HttpStatusCode code, string? errorMessage)
 		{
 			Code = code;
 			ErrorMessage = errorMessage;
 		}
-
-		public HttpStatusCode Code { get; }
-
-		public string? ErrorMessage { get; set; }
 	}
 }

@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace ToDoList.Core.Models
 {
-	public class User:IdentityUser
+    public class User : IdentityUser
 	{
-		public string? FirstName { get; set; }
-		public string? LastName { get; set; }
-		public string? FullName { get; set; }
+		public string FirstName { get; set; } = default!;
+
+		public string LastName { get; set; } = default!;
+
+		public string FullName { get; set; } = default!;
+
 		public string? ImagePath { get; set; }
+
 		public string? Token { get; set; }
-		public List<TaskList> TaskLists { get; set; }=new List<TaskList>();
+
+		public List<TaskList> TaskLists { get; set; } = new List<TaskList>();
 	}
 }

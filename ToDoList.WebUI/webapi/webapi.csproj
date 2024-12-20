@@ -20,11 +20,24 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UserUploads\UserProfilePictures\" />
-  </ItemGroup>
+    <ItemGroup>
+	    <Content Include="UserUploads\**">
+		    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    </Content>
+    </ItemGroup>
 
-  <ItemGroup>
+	<Target Name="PublishFrontend" AfterTargets="ComputeFilesToPublish">
+		<ItemGroup>
+			<DistFiles Include="..\reactapp\dist\**" />
+			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+				<RelativePath>dist\%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+				<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+
+	<ItemGroup>
     <ProjectReference Include="..\..\ToDoList.Infrastructure\ToDoList.Infrastructure.csproj" />
   </ItemGroup>
 

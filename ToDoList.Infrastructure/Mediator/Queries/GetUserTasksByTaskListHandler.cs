@@ -1,15 +1,10 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDoList.Core.Models;
 using ToDoList.Core.RepositoryInterfaces;
 
 namespace ToDoList.Infrastructure.Mediator.Queries
 {
-	public class GetUserTasksByTaskListHandler : IRequestHandler<GetUserTasksByTaskListQuery, List<UserTask>>
+    public class GetUserTasksByTaskListHandler : IRequestHandler<GetUserTasksByTaskListQuery, List<UserTask>>
 	{
 		private readonly ITaskRepository taskRepository;
 
