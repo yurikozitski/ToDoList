@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ToDoList.Infrastructure.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
 	{
 		private readonly UserManager<User> userManager;
 		
@@ -25,5 +25,15 @@ namespace ToDoList.Infrastructure.Repositories
 			var user = await userManager.FindByEmailAsync(email);
 			return user;
 		}
-	}
+
+        public async Task UpdateTokenAsync(string email, string token, DateTime expiryDate)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+			user!.RefreshToken = token;
+			user.RefreshTokenExpiryTime = expiryDate;
+
+			await userManager.UpdateAsync(user);
+        }
+    }
 }

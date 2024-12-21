@@ -12,15 +12,15 @@ namespace ToDoList.Infrastructure.Mediator.Commands
     public class RegistrationHandler : IRequestHandler<RegistrationCommand, UserDto>
 	{
 		private readonly IUserRepository userRepository;
-		private readonly IJwtGenerator jwtGenerator;
+		private readonly ITokenService tokenService;
 		private readonly IImageValidator imageValidator;
 
 		public RegistrationHandler(IUserRepository _userRepository,
-			IJwtGenerator _jwtGenerator, 
+			ITokenService _tokenService, 
 			IImageValidator _imageValidator)
 		{
 			userRepository = _userRepository;
-			jwtGenerator = _jwtGenerator;
+			tokenService = _tokenService;
 			imageValidator = _imageValidator;
 		}
 
@@ -91,12 +91,17 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 				throw new RestException(HttpStatusCode.InternalServerError, "User creation failed");				
 			}
 
+            string refreshToken = tokenService.GenerateRefreshToken();
+
+            await userRepository.UpdateTokenAsync(user.Email!, refreshToken, DateTime.Now.AddDays(14));
+
             return new UserDto
             {
                 FullName = user.FullName,
-                Token = jwtGenerator.CreateToken(user),
-                ImageData = Convert.ToBase64String(imageByteArryay)
+                ImageData = Convert.ToBase64String(imageByteArryay),
+                Token = tokenService.GenerateAccessToken(user),
+                RefreshToken = refreshToken,
             };
-		}
+        }
 	}
 }

@@ -2,8 +2,8 @@
 
 namespace ToDoList.Core.AuthInterfaces
 {
-    public interface IJwtGenerator
+    public interface ITokenService
 	{
-		string CreateToken(User user);
+		string GenerateAccessToken(User user);
 	}
 }

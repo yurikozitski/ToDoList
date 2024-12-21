@@ -11,17 +11,17 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 {
     public class LoginHandler : IRequestHandler<LoginCommand, UserDto>
 	{
-		private readonly IJwtGenerator jwtGenerator;
+		private readonly ITokenService tokenService;
 		private readonly IUserRepository userRepository;
 		private readonly SignInManager<User> signInManager;
 		
 		public LoginHandler(IUserRepository _userRepository, 
 			SignInManager<User> _signInManager,
-			IJwtGenerator _jwtGenerator)
+			ITokenService _tokenService)
 		{
 			userRepository = _userRepository;
 			signInManager = _signInManager;
-			jwtGenerator = _jwtGenerator;
+			tokenService = _tokenService;
 		}
 
 		public async Task<UserDto> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -56,11 +56,16 @@ namespace ToDoList.Infrastructure.Mediator.Commands
                 throw new RestException(HttpStatusCode.BadRequest, "Login failed, enter password again");
 			}
 
+			string refreshToken = tokenService.GenerateRefreshToken();
+
+			await userRepository.UpdateTokenAsync(user.Email!, refreshToken, DateTime.Now.AddDays(14));
+
             return new UserDto
             {
                 FullName = user.FullName,
-                Token = jwtGenerator.CreateToken(user),
-                ImageData = Convert.ToBase64String(imageByteArryay)
+                ImageData = Convert.ToBase64String(imageByteArryay),
+                Token = tokenService.GenerateAccessToken(user),
+				RefreshToken = refreshToken,
             };
         }
 	}

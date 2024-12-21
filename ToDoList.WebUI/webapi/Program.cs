@@ -63,9 +63,9 @@ try
 
 	builder.Services.AddValidatorsFromAssemblyContaining<RegistrationCommandValidator>();
 
-	builder.Services.AddTransient<IJwtGenerator, JwtGenerator>();
-	builder.Services.AddTransient<IUserRepository, UserRepository>();
-	builder.Services.AddTransient<ITaskRepository, TaskRepository>();
+	builder.Services.AddScoped<ITokenService, TokenService>();
+	builder.Services.AddScoped<IUserRepository, UserRepository>();
+	builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 	builder.Services.AddSingleton<IImageValidator, ImageValidator>();
 
 	builder.Services.AddCors();

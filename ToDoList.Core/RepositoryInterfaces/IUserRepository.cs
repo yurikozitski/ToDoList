@@ -7,5 +7,7 @@ namespace ToDoList.Core.RepositoryInterfaces
 		Task<bool> CreateAsync(User user, string password);
 
 		Task<User?> GetByEmailAsync(string email);
+
+		Task UpdateTokenAsync(string email ,string token, DateTime expiryDate);
 	}
 }

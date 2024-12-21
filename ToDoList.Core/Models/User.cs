@@ -12,8 +12,10 @@ namespace ToDoList.Core.Models
 
 		public string? ImagePath { get; set; }
 
-		public string? Token { get; set; }
+		public string? RefreshToken { get; set; }
 
-		public List<TaskList> TaskLists { get; set; } = new List<TaskList>();
+        public DateTime RefreshTokenExpiryTime { get; set; }
+
+        public List<TaskList> TaskLists { get; set; } = new List<TaskList>();
 	}
 }

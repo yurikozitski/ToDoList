@@ -2,7 +2,7 @@
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
-    public class AddUserTaskPlannedTimeCommand:IRequest
+    public class AddUserTaskPlannedTimeCommand : IRequest
 	{
 		public DateTime Time { get; set; }
 
