@@ -12,6 +12,8 @@ export function TaskView(props) {
     const [manipulatedTaskId, manipulatedTaskIdHandler] = useState();
     const [addNewTaskText, addNewTaskTextHandler] = useState("");
 
+    const url = import.meta.env.VITE_API_URL;
+
     function addNewTaskInput(e) {
         addNewTaskTextHandler(e.target.value);
     }
@@ -30,7 +32,7 @@ export function TaskView(props) {
                 return;
             }
 
-            const response = await fetch('https://localhost:44360/Tasks/AddUserTask', {
+            const response = await fetch(url + '/Tasks/AddUserTask', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -42,7 +44,7 @@ export function TaskView(props) {
                 })
             });
             if (response.status === 200) {
-                const response = await fetch('https://localhost:44360/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({ taskListId: props.taskListId }),
+                const response = await fetch(url + '/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({ taskListId: props.taskListId }),
                     {
                         method: 'GET',
                         headers: {
@@ -72,7 +74,7 @@ export function TaskView(props) {
 
         const time = e.type == "click" ? '0001-01-01' : e.target.value
 
-        const response = await fetch('https://localhost:44360/Tasks/AddUserTaskPlannedTime', {
+        const response = await fetch(url + '/Tasks/AddUserTaskPlannedTime', {
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -109,7 +111,7 @@ export function TaskView(props) {
     async function markTaskAsDone(taskId){
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/MarkUserTaskAsDone', {
+        const response = await fetch(url + '/Tasks/MarkUserTaskAsDone', {
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -137,7 +139,7 @@ export function TaskView(props) {
     async function markTaskAsImportant(taskId) {
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/MarkUserTaskAsImportant', {
+        const response = await fetch(url + '/Tasks/MarkUserTaskAsImportant', {
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + token,

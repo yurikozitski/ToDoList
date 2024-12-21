@@ -6,9 +6,11 @@ export function LoginComponent() {
 
     const [emailInput, emailInputHandler] = useState("");
     const [passwordInput, passwordInputHandler] = useState("");
-
+    
     const navigate = useNavigate();
-
+    
+    const url = import.meta.env.VITE_API_URL;
+    
     function emailChange(e) {
         emailInputHandler(e.target.value);
     }
@@ -20,7 +22,6 @@ export function LoginComponent() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const url = import.meta.env.VITE_API_URL;
         
         const response = await fetch(url + '/Account/Login', {
             method: 'POST',

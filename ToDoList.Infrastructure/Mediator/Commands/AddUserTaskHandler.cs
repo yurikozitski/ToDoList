@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using System.Net;
 using ToDoList.Core.RepositoryInterfaces;
-using ToDoList.Infrastructure.Exeptions;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {

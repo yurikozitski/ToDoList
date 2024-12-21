@@ -1,6 +1,4 @@
-﻿using Azure.Core;
-using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -27,7 +25,9 @@ namespace webapi.Controllers
         }
 
         [HttpPost("Register")]
-		public async Task<ActionResult<UserDto>> RegisterAsync()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserDto>> RegisterAsync()
 		{
 			var formCollection = await Request.ReadFormAsync();
 			IFormFile? image = default;
@@ -64,7 +64,9 @@ namespace webapi.Controllers
 		}
 
 		[HttpPost("Login")]
-		public async Task<ActionResult<UserDto>> LoginAsync(LoginCommand loginCommand)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserDto>> LoginAsync(LoginCommand loginCommand)
 		{
             var validationResult = await loginValidator.ValidateAsync(loginCommand);
 

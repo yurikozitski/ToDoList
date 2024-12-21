@@ -11,6 +11,8 @@ export function RegisterComponent() {
     const [passwordInput, passwordInputHandler] = useState("");
     const [confirmPasswordInput, confirmPasswordInputHandler] = useState("");
 
+    const url = import.meta.env.VITE_API_URL;
+
     const navigate = useNavigate();
 
     function firstNameChange(e) {
@@ -52,7 +54,7 @@ export function RegisterComponent() {
         registerForm.append('Image', imageInput);
         registerForm.append('Password', passwordInput);
 
-        const response = await fetch('https://localhost:44360/Account/Register', {
+        const response = await fetch(url + '/Account/Register', {
             method: 'POST',
             body: registerForm
         });

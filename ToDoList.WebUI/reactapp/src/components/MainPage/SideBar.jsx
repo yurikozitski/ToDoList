@@ -28,10 +28,12 @@ export function SideBar(props) {
         fetchTaskLists();
     }, []);
 
+    const url = import.meta.env.VITE_API_URL;
+
     async function fetchTaskLists() {
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/GetTaskLists', {
+        const response = await fetch(url + '/Tasks/GetTaskLists', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -51,7 +53,7 @@ export function SideBar(props) {
     async function fetchTasks(taskListID, taskListNAME) {
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({taskListId: taskListID}),
+        const response = await fetch(url + '/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({taskListId: taskListID}),
         {
             method: 'GET',
             headers: {
@@ -74,7 +76,7 @@ export function SideBar(props) {
     async function fetchAllTasks() {
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/GetAllUserTasks',
+        const response = await fetch(url + '/Tasks/GetAllUserTasks',
             {
                 method: 'GET',
                 headers: {
@@ -97,7 +99,7 @@ export function SideBar(props) {
     async function fetchPlannedTasks() {
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/GetPlannedTasks',
+        const response = await fetch(url + '/Tasks/GetPlannedTasks',
             {
                 method: 'GET',
                 headers: {
@@ -120,7 +122,7 @@ export function SideBar(props) {
     async function fetchImportantTasks() {
         const token = localStorage.getItem("token");
 
-        const response = await fetch('https://localhost:44360/Tasks/GetImportantTasks',
+        const response = await fetch(url + '/Tasks/GetImportantTasks',
             {
                 method: 'GET',
                 headers: {
@@ -196,7 +198,7 @@ export function SideBar(props) {
                return;
            }
 
-            const response = await fetch('https://localhost:44360/Tasks/AddTaskList', {
+            const response = await fetch(url + '/Tasks/AddTaskList', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,

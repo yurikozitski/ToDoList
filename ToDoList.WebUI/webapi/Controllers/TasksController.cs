@@ -21,13 +21,16 @@ namespace webapi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<TaskList>>> GetTaskLists()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<TaskList>>> GetTaskLists()
 		{
 			return await mediator.Send(new GetTaskListsQuery() { UserEmail = User.Identity?.Name! });
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddTaskList(AddTaskListCommand addTaskListCommand)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddTaskList(AddTaskListCommand addTaskListCommand)
 		{
 			if (addTaskListCommand.TaskListName != null) 
 			{
@@ -42,53 +45,61 @@ namespace webapi.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddUserTask(AddUserTaskCommand addUserTaskCommand)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddUserTask(AddUserTaskCommand addUserTaskCommand)
 		{
 			await mediator.Send(addUserTaskCommand);
 			return Ok();
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> MarkUserTaskAsDone(MarkUserTaskAsDoneCommand markUserTaskAsDoneCommand)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> MarkUserTaskAsDone(MarkUserTaskAsDoneCommand markUserTaskAsDoneCommand)
 		{
 			await mediator.Send(markUserTaskAsDoneCommand);
 			return Ok();
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> MarkUserTaskAsImportant(MarkUserTaskAsImportantCommand markUserTaskAsImportantCommand)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> MarkUserTaskAsImportant(MarkUserTaskAsImportantCommand markUserTaskAsImportantCommand)
 		{
 			await mediator.Send(markUserTaskAsImportantCommand);
 			return Ok();
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> AddUserTaskPlannedTime(AddUserTaskPlannedTimeCommand addUserTaskPlannedTimeCommand)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddUserTaskPlannedTime(AddUserTaskPlannedTimeCommand addUserTaskPlannedTimeCommand)
 		{			
 			await mediator.Send(addUserTaskPlannedTimeCommand);
 			return Ok();
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<UserTask>>> GetAllUserTasks()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UserTask>>> GetAllUserTasks()
 		{
 			return await mediator.Send(new GetAllUserTasksQuery() { UserEmail = User.Identity?.Name! });
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<UserTask>>> GetUserTasksByTaskList([FromQuery]string taskListId)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UserTask>>> GetUserTasksByTaskList([FromQuery]string taskListId)
 		{
 			return await mediator.Send(new GetUserTasksByTaskListQuery() { TaskListId = Guid.Parse(taskListId) });
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<UserTask>>> GetPlannedTasks()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UserTask>>> GetPlannedTasks()
 		{
 			return await mediator.Send(new GetPlannedTasksQuery() { UserEmail = User.Identity?.Name! });
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<UserTask>>> GetImportantTasks()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UserTask>>> GetImportantTasks()
 		{
 			return await mediator.Send(new GetImportantTasksQuery() { UserEmail = User.Identity?.Name! });
 		}
