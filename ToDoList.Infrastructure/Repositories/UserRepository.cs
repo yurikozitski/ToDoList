@@ -26,7 +26,7 @@ namespace ToDoList.Infrastructure.Repositories
 			return user;
 		}
 
-        public async Task UpdateTokenAsync(string email, string token, DateTime expiryDate)
+        public async Task UpdateTokenAsync(string email, string? token, DateTime? expiryDate)
         {
             var user = await userManager.FindByEmailAsync(email);
 

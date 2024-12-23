@@ -29,7 +29,7 @@ namespace ToDoList.Infrastructure.Auth
 				Issuer = "Issuer",
 				Audience= "Audience",
 				Subject = new ClaimsIdentity(claims),
-				Expires = DateTime.Now.AddHours(24),
+				Expires = DateTime.UtcNow.AddHours(24),
 				SigningCredentials = credentials
 			};
 

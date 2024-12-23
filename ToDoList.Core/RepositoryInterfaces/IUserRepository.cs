@@ -8,6 +8,6 @@ namespace ToDoList.Core.RepositoryInterfaces
 
 		Task<User?> GetByEmailAsync(string email);
 
-		Task UpdateTokenAsync(string email ,string token, DateTime expiryDate);
+		Task UpdateTokenAsync(string email ,string? token, DateTime? expiryDate);
 	}
 }

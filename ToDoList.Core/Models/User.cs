@@ -14,7 +14,7 @@ namespace ToDoList.Core.Models
 
 		public string? RefreshToken { get; set; }
 
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public List<TaskList> TaskLists { get; set; } = new List<TaskList>();
 	}
