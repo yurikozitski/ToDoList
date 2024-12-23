@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { validateTokenAsync } from '../Services/JwtValidator';
 import { BlackFilledCheckMark } from '../../svg/BlackFilledCheckMark';
 import { ThemeToggler } from '../../svg/ThemeToggler';
 import { Sun } from '../../svg/Sun';
@@ -33,6 +34,8 @@ export function SideBar(props) {
     async function fetchTaskLists() {
         const token = localStorage.getItem("token");
 
+        await validateTokenAsync(token, navigate);
+
         const response = await fetch(url + '/Tasks/GetTaskLists', {
             method: 'GET',
             headers: {
@@ -52,6 +55,8 @@ export function SideBar(props) {
 
     async function fetchTasks(taskListID, taskListNAME) {
         const token = localStorage.getItem("token");
+
+        await validateTokenAsync(token, navigate);
 
         const response = await fetch(url + '/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({taskListId: taskListID}),
         {
@@ -76,6 +81,8 @@ export function SideBar(props) {
     async function fetchAllTasks() {
         const token = localStorage.getItem("token");
 
+        await validateTokenAsync(token, navigate);
+
         const response = await fetch(url + '/Tasks/GetAllUserTasks',
             {
                 method: 'GET',
@@ -99,6 +106,8 @@ export function SideBar(props) {
     async function fetchPlannedTasks() {
         const token = localStorage.getItem("token");
 
+        await validateTokenAsync(token, navigate);
+
         const response = await fetch(url + '/Tasks/GetPlannedTasks',
             {
                 method: 'GET',
@@ -121,6 +130,8 @@ export function SideBar(props) {
 
     async function fetchImportantTasks() {
         const token = localStorage.getItem("token");
+
+        await validateTokenAsync(token, navigate);
 
         const response = await fetch(url + '/Tasks/GetImportantTasks',
             {
@@ -174,7 +185,12 @@ export function SideBar(props) {
         addNewTaskListInputHandler(e.target.value);
     }
 
-    function signOut() {
+    async function signOut() {
+        await fetch(url + '/Token/Revoke',
+        {
+            method: 'POST',
+        });
+
         localStorage.clear();
         props.updateTasks([]);
         navigate("/Login");
@@ -184,6 +200,8 @@ export function SideBar(props) {
        if ((e.key === 'Enter') || (e.type === 'click')) {
 
            const token = localStorage.getItem("token");
+
+           await validateTokenAsync(token, navigate);
 
            if (addNewTaskListInput.length < 3) {
                alert('Task list name is too short');

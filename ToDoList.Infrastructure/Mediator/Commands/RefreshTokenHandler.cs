@@ -1,11 +1,12 @@
-﻿using ToDoList.Core.AuthInterfaces;
+﻿using MediatR;
+using ToDoList.Core.AuthInterfaces;
 using ToDoList.Core.RepositoryInterfaces;
 using ToDoList.Infrastructure.DTOs;
 using ToDoList.Infrastructure.Exeptions;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
-    public class RefreshTokenHandler
+    public class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, TokenDto>
     {
         private readonly IUserRepository userRepository;
         private readonly ITokenService tokenService;

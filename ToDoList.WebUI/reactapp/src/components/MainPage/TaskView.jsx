@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { validateTokenAsync } from '../Services/JwtValidator';
 import { ThinCheckMark } from '../../svg/ThinCheckMark';
 import { SharpStar } from '../../svg/SharpStar';
 import { DeleteMark } from '../../svg/DeleteMark';
@@ -13,6 +15,8 @@ export function TaskView(props) {
     const [addNewTaskText, addNewTaskTextHandler] = useState("");
 
     const url = import.meta.env.VITE_API_URL;
+
+    const navigate = useNavigate();
 
     function addNewTaskInput(e) {
         addNewTaskTextHandler(e.target.value);
@@ -32,6 +36,8 @@ export function TaskView(props) {
                 return;
             }
 
+            await validateTokenAsync(token, navigate);
+
             const response = await fetch(url + '/Tasks/AddUserTask', {
                 method: 'POST',
                 headers: {
@@ -44,6 +50,9 @@ export function TaskView(props) {
                 })
             });
             if (response.status === 200) {
+
+                await validateTokenAsync(token, navigate);
+
                 const response = await fetch(url + '/Tasks/GetUserTasksByTaskList?' + new URLSearchParams({ taskListId: props.taskListId }),
                     {
                         method: 'GET',
@@ -71,6 +80,8 @@ export function TaskView(props) {
     async function setPlannedTime(e) {
 
         const token = localStorage.getItem("token");
+
+        await validateTokenAsync(token, navigate);
 
         const time = e.type == "click" ? '0001-01-01' : e.target.value
 
@@ -111,6 +122,8 @@ export function TaskView(props) {
     async function markTaskAsDone(taskId){
         const token = localStorage.getItem("token");
 
+        await validateTokenAsync(token, navigate);
+
         const response = await fetch(url + '/Tasks/MarkUserTaskAsDone', {
             method: 'PATCH',
             headers: {
@@ -138,6 +151,8 @@ export function TaskView(props) {
 
     async function markTaskAsImportant(taskId) {
         const token = localStorage.getItem("token");
+
+        await validateTokenAsync(token, navigate);
 
         const response = await fetch(url + '/Tasks/MarkUserTaskAsImportant', {
             method: 'PATCH',

@@ -41,4 +41,8 @@
     <ProjectReference Include="..\..\ToDoList.Infrastructure\ToDoList.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="UserUploads\UserProfilePictures\" />
+	</ItemGroup>
+
 </Project>

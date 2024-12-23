@@ -93,7 +93,7 @@ namespace ToDoList.Infrastructure.Mediator.Commands
 
             string refreshToken = tokenService.GenerateRefreshToken();
 
-            await userRepository.UpdateTokenAsync(user.Email!, refreshToken, DateTime.Now.AddDays(14));
+            await userRepository.UpdateTokenAsync(user.Email!, refreshToken, DateTime.UtcNow.AddDays(14));
 
             return new UserDto
             {

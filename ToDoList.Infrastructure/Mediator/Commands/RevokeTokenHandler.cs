@@ -1,9 +1,10 @@
-﻿using ToDoList.Core.RepositoryInterfaces;
+﻿using MediatR;
+using ToDoList.Core.RepositoryInterfaces;
 using ToDoList.Infrastructure.Exeptions;
 
 namespace ToDoList.Infrastructure.Mediator.Commands
 {
-    public class RevokeTokenHandler
+    public class RevokeTokenHandler : IRequestHandler<RevokeTokenCommand>
     {
         private readonly IUserRepository userRepository;
 

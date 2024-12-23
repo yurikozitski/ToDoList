@@ -42,6 +42,7 @@ export function LoginComponent() {
             localStorage.setItem("userName", user.fullName);
             localStorage.setItem("imageData", user.imageData);
             localStorage.setItem("token", user.token);
+            localStorage.setItem("refreshToken", user.refreshToken);
 
             navigate("/");
         }

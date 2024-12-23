@@ -55,7 +55,9 @@ namespace ToDoList.Infrastructure.Auth
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
+                ValidAudience = "Audience",
                 ValidateIssuer = true,
+                ValidIssuer = "Issuer",
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = key,
                 ValidateLifetime = false,
@@ -67,7 +69,7 @@ namespace ToDoList.Infrastructure.Auth
 
             var jwtSecurityToken = securityToken as JwtSecurityToken;
 
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512Signature, StringComparison.InvariantCultureIgnoreCase))
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new SecurityTokenException("Invalid token");
             }
