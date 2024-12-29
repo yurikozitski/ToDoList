@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Infrastructure.DTOs;
@@ -35,7 +36,7 @@ namespace webapi.Controllers
             return await mediator.Send(tokenCommand);
         }
 
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Revoke")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> RevokeAsync()

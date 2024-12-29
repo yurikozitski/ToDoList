@@ -186,10 +186,15 @@ export function SideBar(props) {
     }
 
     async function signOut() {
-        await fetch(url + '/Token/Revoke',
-        {
-            method: 'POST',
-        });
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(url + '/Token/Revoke',
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+            });
 
         localStorage.clear();
         props.updateTasks([]);
